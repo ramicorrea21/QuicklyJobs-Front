@@ -1,17 +1,18 @@
 "use client";
 import { FcBinoculars } from "react-icons/fc";
 import { IoMdMenu } from "react-icons/io";
-import { useState } from "react";
+import {useState} from "react";
 import Link from "next/link";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState(false);
 
+
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
-  };
+  }
 
-  
+
 
   return (
     <nav className="bg-gray-900 text-white fixed w-screen top-0 z-10 mx-auto  px-2 sm:px-6 lg:px-8">
@@ -36,9 +37,8 @@ export default function Navbar() {
           </p>
         </div>
         <div className="flex text-white">
-
           <Link href='/login'>
-            <p>Login</p>
+            <p className="hover:bg-gray-700 hover:text-white rounded-md  py-2 px-2 cursor-pointer">Login</p>
           </Link>
         </div>
       </div>

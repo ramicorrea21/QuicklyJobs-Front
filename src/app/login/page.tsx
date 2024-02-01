@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LoginFetch } from "../lib/data";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { fectchUserData } from "../lib/data";
 
 export type loginInputs = {
   user_email: string;
@@ -21,9 +22,11 @@ export default function Login() {
       setError(true);
     }
 
-    const storedToken = localStorage.getItem("token");
+    const storedToken = sessionStorage.getItem("token");
     if (storedToken) {
       router.push("/");
+      let userInfo = await fectchUserData(storedToken)
+      console.log(userInfo);
     }
   };
 

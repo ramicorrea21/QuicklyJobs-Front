@@ -26,7 +26,7 @@ export async function LoginFetch<loginInputs>(data: loginInputs){
         })
         if(response.status == 200){
             const data = await response.json()
-            localStorage.setItem("token", data.token)
+            sessionStorage.setItem("token", data.token)
         }
         return response.status
         
@@ -34,3 +34,10 @@ export async function LoginFetch<loginInputs>(data: loginInputs){
         console.log(error);
     }
 } 
+
+export async function fectchUserData(token : any){
+    let response = await fetch('http://127.0.0.1:5000/getuserdata',{
+        headers:{Authorization: `Bearer ${token}`}
+    })
+    return response.json()
+}
