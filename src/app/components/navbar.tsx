@@ -11,6 +11,8 @@ export default function Navbar() {
     setOpenMenu(!openMenu);
   };
 
+  
+
   return (
     <nav className="bg-gray-900 text-white fixed w-screen top-0 z-10 mx-auto  px-2 sm:px-6 lg:px-8">
       <div className="relative flex h-16 items-center justify-between ">
@@ -34,6 +36,7 @@ export default function Navbar() {
           </p>
         </div>
         <div className="flex text-white">
+
           <Link href='/login'>
             <p>Login</p>
           </Link>
