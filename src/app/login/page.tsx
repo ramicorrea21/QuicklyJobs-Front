@@ -3,8 +3,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { LoginFetch } from "../lib/data";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { fectchUserData } from "../lib/data";
 
 export type loginInputs = {
   user_email: string;
@@ -12,22 +10,11 @@ export type loginInputs = {
 };
 
 export default function Login() {
-  const router = useRouter();
   const { register, handleSubmit } = useForm<loginInputs>();
   const [error, setError] = useState(false);
 
   const onSubmit: SubmitHandler<loginInputs> = async (data) => {
-    let response = await LoginFetch(data);
-    if (response == 400) {
-      setError(true);
-    }
-
-    const storedToken = sessionStorage.getItem("token");
-    if (storedToken) {
-      router.push("/");
-      let userInfo = await fectchUserData(storedToken)
-      console.log(userInfo);
-    }
+     LoginFetch(data);
   };
 
   return (
