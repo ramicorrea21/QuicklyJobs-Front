@@ -3,6 +3,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { LoginFetch } from "../lib/data";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/authContext";
 
 export type loginInputs = {
   user_email: string;
@@ -10,11 +12,18 @@ export type loginInputs = {
 };
 
 export default function Login() {
+  const router = useRouter()
   const { register, handleSubmit } = useForm<loginInputs>();
   const [error, setError] = useState(false);
+  const { login } = useAuth();
 
   const onSubmit: SubmitHandler<loginInputs> = async (data) => {
-     LoginFetch(data);
+    try {
+      await login(data.user_email, data.password); // Llama a la función login del contexto
+      router.push('/'); // Redirige al usuario a la página de inicio
+    } catch (error) {
+      setError(true); // Establece el estado de error si el inicio de sesión falla
+    }
   };
 
   return (
@@ -64,9 +73,9 @@ export default function Login() {
           >
             Login
           </button>
-          <h3 className="mt-4 mx-2 text-sm">Don't have an account?</h3>{" "}
+          <h3 className="mt-4 mx-2 text-sm">Don't have an account?</h3>
           <Link href="/singup">
-            <h3 className="mt-4 text-sm text-indigo-600 underline max-[300px]:text-center">
+            <h3 className="mt-4 text-sm text-purple-600 underline max-[300px]:text-center">
               Singup
             </h3>
           </Link>

@@ -28,7 +28,12 @@ export default function Singup() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    Register(data)
+    let status = await Register(data)
+    if(status == 201){
+      router.push('/login')
+    }else{
+      setError(true)
+    }
   };
 
   return (
