@@ -18,11 +18,11 @@ export default function Login() {
   const { login } = useAuth();
 
   const onSubmit: SubmitHandler<loginInputs> = async (data) => {
-    try {
-      await login(data.user_email, data.password); // Llama a la función login del contexto
-      router.push('/'); // Redirige al usuario a la página de inicio
-    } catch (error) {
-      setError(true); // Establece el estado de error si el inicio de sesión falla
+    const loginSuccessful = await login(data.user_email, data.password); 
+    if (loginSuccessful) {
+      router.push('/'); 
+    } else {
+      setError(true); 
     }
   };
 

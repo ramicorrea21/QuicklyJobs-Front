@@ -5,14 +5,20 @@ import { loginInputs } from '../login/page';
 import { LoginFetch } from '../lib/data';
 
 type User = {
-  id: number;
-  user_handle: string;
-  user_email: string;
-};
+    user: {
+      id: number;
+      user_email: string;
+      user_handle: string;
+    };
+    profile: {
+      // Estructura de tu perfil aquí
+    } | null;
+  };
+  
 
 type AuthContextType = {
   user: User | null;
-  login: (user_email: string, password: string) => Promise<void>;
+  login: (user_email: string, password: string) => Promise<Boolean>;
   logout: () => void;
 };
 type AuthProviderProps = {
@@ -33,12 +39,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
-        });
+        });                                 
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
-          console.log(userData);
-          
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -50,7 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
     fetchUser();
   }, [fetchUser]);
 
-  const login = async (user_email: string, password: string) => {
+  const login = async (user_email: string, password: string): Promise<Boolean> => {
     try {
       const loginData: loginInputs = { user_email, password };
       let status = await LoginFetch(loginData);
@@ -59,8 +63,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
       } else {
         throw new Error('Failed to log in');
       }
+      return true
     } catch (error) {
       console.error('Login error:', error);
+      return false
     }
   };
   
