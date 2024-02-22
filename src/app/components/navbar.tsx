@@ -44,10 +44,10 @@ export default function Navbar() {
               Login
             </Link>
           }
-          <Link href="/postoportunity" className=" hidden md:block border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-white hover:bg-black hover:text-white mr-4">
+          <Link href="/postoportunity" className=" hidden md:block border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white mr-4">
             Request a service
           </Link>
-          <Link href="/postservice" className="border border-purple-500 text-white max-[340px]:px-1 max-[340px]:py-1 px-3 py-2 rounded-md max-[340px]:text-xs text-sm font-medium bg-purple-500 hover:bg-white hover:text-purple-500">
+          <Link href="/postservice" className="border border-black text-black px-3 py-2 rounded-md  bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 hover:bg-black hover:text-white">
             Offer a service
           </Link>
         </div>

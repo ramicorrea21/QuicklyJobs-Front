@@ -10,7 +10,7 @@ export default function Banner(){
             Discover experts ready to deliver on-demand. Simplify your service needs with our platform.
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-4">
-            <Link href="/request-service" className="border border-purple-500 bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg  hover:bg-white hover:text-purple-500 transition duration-300">
+            <Link href="/request-service" className="border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white">
               Request a Service
             </Link>
             <Link href="/offer-service" className=" border border-black text-black px-3 py-2 rounded-md  bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 hover:bg-black hover:text-white">
