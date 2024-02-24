@@ -4,7 +4,8 @@ import "./globals.css";
 import Navbar from "./components/navbar";
 import { AuthProvider } from "./context/authContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter(
+{ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

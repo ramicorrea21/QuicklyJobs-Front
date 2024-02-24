@@ -7,6 +7,9 @@ export const userSchema = z.object({
     password: z.string().min(6, {
         message : "Password must be at least 6 characters long"
     }),
+    confirm_password: z.string().min(6, {
+        message : "Password must be at least 6 characters long"
+    }),
     user_handle: z.string().min(5,{
         message: "Username must have min 5 characters"
     }).max(20,{
