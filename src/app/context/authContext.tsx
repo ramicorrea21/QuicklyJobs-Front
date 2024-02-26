@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { loginInputs } from '../login/page';
 import { LoginFetch } from '../lib/data';
+import { ProfileInputs } from '../complete_profile/page';
 
 type User = {
     user: {
@@ -20,6 +21,7 @@ type AuthContextType = {
   user: User | null;
   login: (user_email: string, password: string) => Promise<Boolean>;
   logout: () => void;
+  postProfile : <ProfileInputs>(data: ProfileInputs) => Promise<number | undefined>
 };
 type AuthProviderProps = {
     children: ReactNode;
@@ -76,8 +78,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
     setUser(null);
   };
 
+
+  async function postProfile<ProfileInputs>(data: ProfileInputs): Promise<number | undefined> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("No token found");
+      return undefined; 
+    }
+
+    try {
+      let response = await fetch('http://127.0.0.1:5000/post-profile', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const profileData = await response.json();
+      setUser({ ...user, ...profileData });
+      return response.status;
+    } catch (error) {
+      console.error("Error posting profile:", error);
+      return 500; 
+    }
+}
+
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, postProfile}}>
       {children}
     </AuthContext.Provider>
   );
