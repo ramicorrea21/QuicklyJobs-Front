@@ -15,6 +15,9 @@ export default function Profile(){
         if(user === null){
          router.push('/')
         }
+        if(user?.profile == null){
+            router.push('/complete_profile')
+        }
     }, [user])
     
 

@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { profileSchema } from '../validations/profileSchema';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 
 export type ProfileInputs = {
@@ -24,6 +25,7 @@ export type ProfileInputs = {
 export default function CompleteProfile() {
     const router = useRouter()
     const {postProfile} = useAuth()
+    const {user} = useAuth()
     const {
         register,
         handleSubmit,
@@ -32,6 +34,12 @@ export default function CompleteProfile() {
     } = useForm<ProfileInputs>({
         resolver: zodResolver(profileSchema),
     });
+
+    useEffect(() =>{
+        if(user?.profile != null){
+         router.push('/profile')
+        }
+    }, [user])
 
     const onSubmit: SubmitHandler<ProfileInputs> = async(data) => {
         let status = await postProfile(data)

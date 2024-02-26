@@ -12,7 +12,16 @@ type User = {
       user_handle: string;
     };
     profile: {
-      // Estructura de tu perfil aquí
+      first_name: string,
+      last_name: string,
+      description: string,
+      address: string,
+      profession: string,
+      category: string,
+      phone: string,
+      country: string,
+      city: string,
+      province: string,
     } | null;
   };
   
