@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import { loginInputs } from '../login/page';
 import { LoginFetch } from '../lib/data';
 import { ProfileInputs } from '../complete_profile/page';
+import { useRouter } from 'next/navigation';
 
 type User = {
     user: {
@@ -37,10 +38,9 @@ type AuthProviderProps = {
   };
   
 const AuthContext = createContext<AuthContextType | null>(null);
-
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
   const [user, setUser] = useState<User | null>(null);
-
+  const router = useRouter()
   const fetchUser = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -85,6 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    router.push('/')
   };
 
 

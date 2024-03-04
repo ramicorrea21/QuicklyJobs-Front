@@ -13,7 +13,7 @@ export default function Banner(){
             <Link href="/request-service" className="border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white">
               Request a Service
             </Link>
-            <Link href="/offer-service" className=" border border-black text-black px-3 py-2 rounded-md  bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 hover:bg-black hover:text-white">
+            <Link href="/offer-service" className=" border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white">
                 Offer a Service
             </Link>
           </div>

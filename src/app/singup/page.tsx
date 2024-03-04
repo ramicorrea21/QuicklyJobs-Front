@@ -40,9 +40,9 @@ export default function Singup() {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
     <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-4 sm:px-10 text-center lg:items-start lg:text-left mt-28 lg:mt-0 lg:ml-28">
-      <h1 className="text-4xl lg:text-7xl xl:text-9xl font-bold mb-4">Create New Account</h1>
+      <h1 className="text-4xl lg:text-7xl xl:text-8xl font-bold mb-4">Create New Account</h1>
       <p className="mb-2 text-xl lg:text-3xl">Already Registered? <Link href="/login" className="text-indigo-600 hover:underline">Login</Link></p>
-      <div className="w-12 h-1 bg-black mb-4 hidden md:block"></div>
+      <div className="w-12 h-1 bg-black mt-20 mb-4 hidden md:block"></div>
       <p className="text-sm sm:text-xl lg:text-2xl text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean semper mauris in magna venenatis suscipit.</p>
     </div>
     {/* Sección del formulario */}
@@ -73,7 +73,7 @@ export default function Singup() {
             </div>
             <div>
               <label htmlFor="user_handle" className="block text-sm font-bold mb-2">
-                  NAME
+                  USERNAME
                   <p className="block text-sm font-medium leaging-6 text-red-500">
                        {errors.user_handle?.message}
                   </p>  

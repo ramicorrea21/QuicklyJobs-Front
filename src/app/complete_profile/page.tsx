@@ -49,7 +49,7 @@ export default function CompleteProfile() {
     }
 
     return (
-        <div className="min-h-screen bg-purple-100 flex justify-center items-center">
+        <div className="min-h-screen  flex justify-center items-center">
             <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-4xl mx-auto mt-20">
                 <div className="flex flex-col items-center">
                     <div className="w-20 h-20 bg-purple-300 rounded-full flex items-center justify-center mb-3">

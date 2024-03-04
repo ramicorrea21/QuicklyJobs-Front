@@ -47,13 +47,13 @@ export default function Navbar() {
           <Link href="/postoportunity" className=" hidden md:block border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white mr-4">
             Request a service
           </Link>
-          <Link href="/postservice" className="border border-black text-black px-3 py-2 rounded-md  bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 hover:bg-black hover:text-white">
+          <Link href="/postservice" className="border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white">
             Offer a service
           </Link>
         </div>
       </div>
       {openMenu && (
-        <div className="absolute top-0 left-0 h-screen w-full bg-white z-50 lg:hidden">
+        <div className="absolute top-0 left-0 h-screen w-full fondo z-50 lg:hidden">
           <div className='flex px-6 py-3 mt-1'>
             <div className='lg:hidden mr-1 ' onClick={toggleMenu}><IoMdClose size={30} /></div>
             <Link onClick={toggleMenu} href="/" className="font-bold max-[340px]:text-lg text-xl text-black">
@@ -67,10 +67,10 @@ export default function Navbar() {
             <Link onClick={toggleMenu} href="/oportunities" className="text-black py-2 text-lg">
               Job Oportunities
             </Link>
-            <Link onClick={toggleMenu} href="/postoportunity" className="md:hidden text-black text-center w-56 py-2 text-lg border border-black px-5 my-2 rounded-md bg-white hover:bg-black hover:text-white">
+            <Link onClick={toggleMenu} href="/postoportunity" className="md:hidden text-black text-center w-56 py-2 text-lg border border-black px-5 my-2 rounded-md  hover:bg-black hover:text-white">
               Request a service
             </Link>
-            <Link onClick={toggleMenu} href="/postservice" className="md:hidden  text-white w-56 text-center text-lg bg-purple-500 px-5 py-2 my-2 rounded-md hover:bg-white hover:text-purple-500">
+            <Link onClick={toggleMenu} href="/postservice" className="md:hidden  text-black text-center w-56 py-2 text-lg border border-black px-5 my-2 rounded-md  hover:bg-black hover:text-white">
               Offer a service
             </Link>
             {user ?
