@@ -3,7 +3,7 @@ import { useAuth } from "../context/authContext"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { BiUser } from "react-icons/bi"
-import Image from "next/image";
+import Image from "next/image"
 
 
 
@@ -12,19 +12,11 @@ export default function Profile() {
     const { user, logout } = useAuth()
 
 
-    useEffect(() => {
-        if (user == null) {
-            router.push('/')
-        }
-        if (user?.profile == null) {
-            router.push('/complete_profile')
-        }
-    }, [user])
-
     const handleLogout = () => {
-        router.push('/login')
-        logout()
-
+        router.push('/')
+        setTimeout(() =>{
+            logout()
+        }, 500)
     }
 
 
@@ -36,7 +28,9 @@ export default function Profile() {
                 <div className="bg-white shadow-xl rounded-lg flex flex-col">
                     <div className="p-6 flex-grow">
                         <div className="flex flex-col items-start">
-                            <BiUser size={100} className="rounded-full mb-2" />
+                            {user?.profile?.avatar ? (
+                                <Image src={user?.profile?.avatar} alt="user img" width={200} height={200} className="rounded-full"/>
+                            ) :  <BiUser size={100} className="rounded-full mb-2" /> }
                             <div className="mt-4 mb-2">
                                 <p className="font-medium">Username</p>
                                 <p>{user?.user.user_handle}</p>
@@ -54,23 +48,23 @@ export default function Profile() {
                     </div>
                 </div>
                 {/* Right section - Specifications */}
-<div className="bg-white shadow-xl rounded-lg flex flex-col max-w-6xl mx-auto">
+<div className="bg-white shadow-xl rounded-lg flex flex-col w-full md:max-w-6xl mx-auto">
     <div className="p-6">
         <h2 className="font-bold text-lg mb-4">Specifications</h2>
         <div className="divide-y divide-gray-200">
             {/* First row with Fullname, Phone, and Address */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 py-4">
                 <div>
-                    <p className="font-medium">Full name</p>
-                    <p className="truncate">{user?.profile?.first_name} {user?.profile?.last_name}</p>
+                    <p className="font-medium">First Name</p>
+                    <p className="truncate">{user?.profile?.first_name} </p>
+                </div>
+                <div>
+                    <p className="font-medium">Last Name</p>
+                    <p className="truncate">{user?.profile?.last_name}</p>
                 </div>
                 <div>
                     <p className="font-medium">Phone</p>
                     <p className="truncate">{user?.profile?.phone}</p>
-                </div>
-                <div>
-                    <p className="font-medium">Address</p>
-                    <p className="truncate">{user?.profile?.address}</p>
                 </div>
             </div>
 
@@ -95,6 +89,21 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 py-4">
+                <div>
+                    <p className="font-medium">City</p>
+                    <p className="truncate">{user?.profile?.city} </p>
+                </div>
+                <div>
+                    <p className="font-medium">Province</p>
+                    <p className="truncate">{user?.profile?.province}</p>
+                </div>
+                <div>
+                    <p className="font-medium">Country</p>
+                    <p className="truncate">{user?.profile?.country}</p>
+                </div>
+            </div>
+
 
             {/* Description */}
             <div className="py-4">

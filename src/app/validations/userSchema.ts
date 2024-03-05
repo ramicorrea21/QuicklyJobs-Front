@@ -15,4 +15,7 @@ export const userSchema = z.object({
     }).max(20,{
         message : "Username must be less than 20 characters long"
     })
+}).refine(data => data.password === data.confirm_password, {
+    message: "Passwords must match", 
+    path : ["confirm_password"]
 })
