@@ -5,19 +5,34 @@ import { IoMdClose } from "react-icons/io";
 import { useState } from 'react';
 import { useAuth } from '../context/authContext';
 import { FaUser } from "react-icons/fa";
+import Image from 'next/image';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+
+interface DropdownItemProps {
+  href: string;
+  label: string;
+}
 
 
 export default function Navbar() {
   const { user, logout } = useAuth()
   const [openMenu, setOpenMenu] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu)
   }
 
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+  const DropdownItem: React.FC<DropdownItemProps> = ({ href, label }) => (
+    <Link href={href} onClick={toggleMenu} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+      {label}
+    </Link>
+  );
 
   return (
-    <nav className=" shadow fixed top-0 w-screen">
+    <nav className=" shadow fixed top-0 bg-white w-screen">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
           <div className='lg:hidden mr-1' onClick={toggleMenu}><GiHamburgerMenu size={20} /></div>
@@ -33,11 +48,25 @@ export default function Navbar() {
         </div>
         <div className="flex items-center">
           {user ? (
-            <div className="flex px-3 py-2 cursor-pointer">
-              <FaUser size={20} className='hidden md:block' />
-              <Link href="/profile" className="hidden md:block  text-black rounded-md text-sm font-medium">
-              {user?.user.user_handle}
-            </Link>
+            <div className=" hidden md:block px-3 cursor-pointer">
+             {user?.profile?.avatar ? (
+              <Image src={user?.profile?.avatar} alt="user img" width={25} height={10} className=" avatar-nav"/>
+               ) :  <FaUser size={25} className="rounded-full mb-2" /> }
+               <div className="relative">
+              <button
+                className="font-semibold text-xs flex items-center cursor-pointer"
+                onClick={toggleDropdown}
+              >
+                Yo
+                {dropdownOpen ? <MdKeyboardArrowUp size={24} /> : <MdKeyboardArrowDown size={24} />}
+              </button> 
+              {dropdownOpen && (
+                <div className="absolute left-0 mt-2 w-48 bg-white shadow-md z-10">
+                  {user?.profile  == null? <DropdownItem href="/complete_profile" label="Profile" />: <DropdownItem href="/profile" label="Profile" /> }
+                  <p className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100' onClick={logout}>Logout </p>
+                </div>
+              )}
+            </div>
             </div>
           ) :
             <Link href="/login" className="hidden md:block text-black px-3 py-2 rounded-md text-sm font-medium">
@@ -73,16 +102,8 @@ export default function Navbar() {
             <Link onClick={toggleMenu} href="/postservice" className="md:hidden  text-black text-center w-56 py-2 text-lg border border-black px-5 my-2 rounded-md  hover:bg-black hover:text-white">
               Offer a service
             </Link>
-            {user ?
-              <div className="flex py-2 " onClick={toggleMenu}>
-              <FaUser size={20} className='md:hidden' />
-              <Link href='/profile' className="md:hidden  text-black text-lg">
-                {user.user.user_handle}
-              </Link>
-              </div>
-              : <Link onClick={toggleMenu} href="/login" className="md:hidden  text-black py-2 text-lg">
-                Log In
-              </Link>}
+            {user?.profile  == null? <Link onClick={toggleMenu} href="/complete_profile" className="md:hidden text-black py-2 text-lg">Profile</Link>:
+             <Link href="/profile" onClick={toggleMenu} className="md:hidden text-black py-2 text-lg">Profile</Link>}
           </div>
         </div>
       )}
