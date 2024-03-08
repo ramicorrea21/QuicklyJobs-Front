@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
     if (token) {
       try {
 
-        const response = await fetch(`http://127.0.0.1:5000/fetch_user`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/fetch_user `, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -98,7 +98,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
     }
   
     try {
-      let response = await fetch('http://127.0.0.1:5000/post-profile', {
+      let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/post-profile`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

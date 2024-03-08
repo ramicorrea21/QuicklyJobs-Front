@@ -7,6 +7,8 @@ import { profileSchema } from '../validations/profileSchema';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { citiesByState, categories } from '../utils/options'
+
 
 
 export type ProfileInputs = {
@@ -17,17 +19,16 @@ export type ProfileInputs = {
     profession: string,
     category: string,
     phone: string,
-    country: string,
+    available: boolean,
     city: string,
-    province: string,
+    state: string,
     avatar: FileList | null;
 }
 
 export default function CompleteProfile() {
     const { postProfile } = useAuth();
-    const { user } = useAuth()
-    const router = useRouter()
-    const [profile, setProfile] = useState(false)
+    const router = useRouter();
+    const [profile, setProfile] = useState(false);
     const {
         register,
         handleSubmit,
@@ -38,8 +39,28 @@ export default function CompleteProfile() {
         resolver: zodResolver(profileSchema),
     });
 
+    // Este watch observará el campo 'state' para cambios.
+    const selectedState = watch("state");
+    const [cities, setCities] = useState<string[]>([]);
+
     useEffect(() => {
-        if(profile == true){
+        // Usamos el tipo CitiesByStateType para asegurar el acceso correcto al índice
+        if (selectedState) {
+            const stateCities: string[] = citiesByState[selectedState] || [];
+            setCities(stateCities);
+        }
+        // Asegúrate de resetear el valor de 'city' en el formulario cuando el estado cambia.
+        setValue('city', '');
+    }, [selectedState, setValue]);
+
+    useEffect(() => {
+        if (profile) {
+            router.push('/profile');
+        }
+    }, [profile, router]);
+
+    useEffect(() => {
+        if (profile == true) {
             router.push('/profile')
         }
     }, [profile])
@@ -67,10 +88,10 @@ export default function CompleteProfile() {
         }
     };
 
-
+    const stateNames = Object.keys(citiesByState);
     return (
-        <div className="min-h-screen  flex justify-center items-center md:mt-8">
-            <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-4xl mx-auto mt-20">
+        <div className="min-h-screen  flex justify-center items-center mt-0 md:mt-8">
+            <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-4xl mx-auto md:mt-20">
                 <div className="flex flex-col items-center">
                     <h2 className="text-3xl font-semibold mb-2">Complete your Profile</h2>
                     <p className="text-sm text-gray-500 mb-6 text-center">
@@ -146,10 +167,11 @@ export default function CompleteProfile() {
                                 </label>
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="category" {...register("category")}>
-                                    <option>Technology</option>
-                                    <option>Marketing</option>
-                                    <option>Design</option>
-                                    {/* ... otras opciones ... */}
+                                    {categories.map((categories) =>{
+                                        return(
+                                            <option key={categories}>{categories}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                         </div>
@@ -165,51 +187,60 @@ export default function CompleteProfile() {
                                     id="phone" type="tel" placeholder="+123456789" {...register("phone")} />
                             </div>
                             <div className="w-full md:w-1/2 px-3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="country">
-                                    Country*
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="available">
+                                    Available to contract*
                                     <p className="block text-sm font-medium leaging-6 text-red-500">
-                                        {errors.country?.message}
+                                        {errors.available?.message}
                                     </p>
                                 </label>
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="country" {...register("country")}>
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>United Kingdom</option>
-                                    {/* ... otras opciones ... */}
+                                    id="available" {...register("available")}>
+                                    <option>Yes</option>
+                                    <option>No</option>
                                 </select>
                             </div>
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="state">
+                                    State *
+                                    <p className="block text-sm font-medium leaging-6 text-red-500">
+                                        {errors.state?.message}
+                                    </p>
+                                </label>
+                                <select
+                                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="state"
+                                    {...register("state")}
+                                    onChange={(e) => {
+                                        // Actualiza el estado seleccionado y resetea el valor de la ciudad
+                                        const newState = e.target.value;
+                                        setCities(citiesByState[newState]);
+                                        setValue('city', ''); // Resetea la ciudad en React Hook Form
+                                    }}
+                                >
+                                    {stateNames.map((stateName) => (
+                                        <option key={stateName} value={stateName}>{stateName}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="city">
-                                    City*
+                                    City *
                                     <p className="block text-sm font-medium leaging-6 text-red-500">
                                         {errors.city?.message}
                                     </p>
                                 </label>
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="city" {...register("city")}>
-                                    <option>New York</option>
-                                    <option>Toronto</option>
-                                    <option>Londres</option>
+                                <select
+                                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="city"
+                                    {...register("city")}
+                                >
+                                    {cities.map((city) => (
+                                        <option key={city} value={city}>{city}</option>
+                                    ))}
                                 </select>
                             </div>
-                            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="Province">
-                                    Province*
-                                    <p className="block text-sm font-medium leaging-6 text-red-500">
-                                        {errors.province?.message}
-                                    </p>
-                                </label>
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="Province" {...register("province")}>
-                                    <option>New York</option>
-                                    <option>Toronto</option>
-                                    <option>Londres</option>
-                                </select>
-                            </div>
-
                         </div>
                         <div className="flex flex-wrap -mx-3 mt-6">
                             <div className="w-full px-3">

@@ -2,7 +2,7 @@ import { Inputs } from "../singup/page";
 import { loginInputs } from "../login/page";
 export async function Register<Inputs>(data : Inputs){
     try {
-        let response = await fetch('http://127.0.0.1:5000/post_user', {
+        let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/post_user`, {
             method : "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -17,7 +17,7 @@ export async function Register<Inputs>(data : Inputs){
 
 export async function LoginFetch<loginInputs>(data: loginInputs){
     try {
-        let response = await fetch('http://127.0.0.1:5000/login', {
+        let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
             method : "POST",
             headers: {
                 "Content-Type": "application/json"
