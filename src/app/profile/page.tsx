@@ -87,7 +87,7 @@ export default function Profile() {
                                 </div>
                                 <div className="flex justify-between md:justify-start md:gap-4 items-center">
                                     <div className="flex items-center">
-                                        <p className="font-medium">Available</p>
+                                        <p className="font-medium">Available </p>
                                         <span className={`inline-block w-3 h-3 ml-2 rounded-full bg-green-500`}></span>
                                     </div>
                                 </div>
@@ -98,12 +98,12 @@ export default function Profile() {
                                     <p className="truncate">{user?.profile?.city} </p>
                                 </div>
                                 <div>
-                                    <p className="font-medium">Province</p>
-                                    <p className="truncate">{user?.profile?.province}</p>
+                                    <p className="font-medium">State</p>
+                                    <p className="truncate">{user?.profile?.state}</p>
                                 </div>
                                 <div>
                                     <p className="font-medium">Country</p>
-                                    <p className="truncate">{user?.profile?.country}</p>
+                                    <p className="truncate">United States</p>
                                 </div>
                             </div>
 

@@ -22,7 +22,7 @@ type User = {
       phone: string,
       country: string,
       city: string,
-      province: string,
+      state: string,
       avatar: string |null
     } | null;
   };
@@ -33,6 +33,7 @@ type User = {
     login: (user_email: string, password: string) => Promise<Boolean>;
     logout: () => void;
     postProfile: (data: FormData) => Promise<number | undefined>;
+    loading : boolean
   };
 type AuthProviderProps = {
     children: ReactNode;
@@ -40,25 +41,30 @@ type AuthProviderProps = {
   
 const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter()
   const fetchUser = useCallback(async () => {
+    setLoading(true); // Iniciar la carga
     const token = localStorage.getItem('token');
     if (token) {
       try {
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/fetch_user `, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/fetch_user`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
-        });                                 
+        });
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false); // Finalizar la carga independientemente del resultado
       }
+    } else {
+      setLoading(false); // Si no hay token, también se finaliza la carga
     }
   }, []);
 
@@ -122,7 +128,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, postProfile}}>
+    <AuthContext.Provider value={{ user, login, logout, loading, postProfile}}>
       {children}
     </AuthContext.Provider>
   );
