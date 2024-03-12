@@ -34,6 +34,7 @@ type User = {
     logout: () => void;
     postProfile: (data: FormData) => Promise<number | undefined>;
     loading : boolean
+    PostRequest : (data : FormData) => Promise<number | undefined>
   };
 type AuthProviderProps = {
     children: ReactNode;
@@ -125,10 +126,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
     }
   }
   
+  async function PostRequest(data:FormData): Promise<number | undefined> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("No token found");
+      return undefined;
+    }
+    try {
+      let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/post-request`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: data  
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.status
+    } catch (error) {
+      console.error("Error posting request:", error);
+      return 500;
+    }
+
+  }
 
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, postProfile}}>
+    <AuthContext.Provider value={{ user, login, logout, loading, postProfile, PostRequest}}>
       {children}
     </AuthContext.Provider>
   );
