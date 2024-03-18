@@ -1,123 +1,74 @@
-'use client'
-import { useAuth } from "../context/authContext"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import { BiUser } from "react-icons/bi"
-import Image from "next/image"
-
-
+'use client';
+import Image from "next/image";
+import { BiPencil, BiUserCircle, BiUser, BiPhone, BiLogoGmail } from "react-icons/bi";
+import { useAuth } from "../context/authContext";
 
 export default function Profile() {
-    const router = useRouter()
-    const { user, logout } = useAuth()
+  const {user} = useAuth()
 
 
-    const handleLogout = () => {
-        router.push('/')
-        setTimeout(() => {
-            logout()
-        }, 500)
-    }
-
-
-    return (
-        <div className="flex justify-center items-center h-screen mt-28 md:mt-0 ">
-            {/* Left section - User Profile */}
-            <div className="flex flex-col md:flex-row gap-4 p-4 md:items-stretch w-full max-w-4xl">
-                {/* User Profile Card */}
-                <div className="bg-white shadow-xl rounded-lg flex flex-col">
-                    <div className="p-6 flex-grow">
-                        <div className="flex flex-col items-start">
-                            {user?.profile?.avatar ? (
-                                <Image
-                                    src={user?.profile?.avatar}
-                                    alt="user img"
-                                    width={200} // Establece un tamaño fijo que coincida con el tamaño de tu contenedor
-                                    height={200} // Establece un tamaño fijo que coincida con el tamaño de tu contenedor
-                                    className="rounded-full" // Esto hará que la imagen sea redonda
-                                    objectFit="cover" // Esto asegurará que la imagen cubra toda el área sin ser estirada
-                                />
-                            ) : <BiUser size={100} className="rounded-full mb-2" />}
-                            <div className="mt-4 mb-2">
-                                <p className="font-medium">Username</p>
-                                <p>{user?.user.user_handle}</p>
-                            </div>
-                            <div className="my-2">
-                                <p className="font-medium">Email</p>
-                                <p>{user?.user.user_email}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bg-gray-100 p-4 rounded-b-lg">
-                        <button onClick={handleLogout} className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-                            Logout
-                        </button>
-                    </div>
-                </div>
-                {/* Right section - Specifications */}
-                <div className="bg-white shadow-xl rounded-lg flex flex-col w-full md:max-w-6xl mx-auto">
-                    <div className="p-6">
-                        <h2 className="font-bold text-lg mb-4">Specifications</h2>
-                        <div className="divide-y divide-gray-200">
-                            {/* First row with Fullname, Phone, and Address */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 py-4">
-                                <div>
-                                    <p className="font-medium">First Name</p>
-                                    <p className="truncate">{user?.profile?.first_name} </p>
-                                </div>
-                                <div>
-                                    <p className="font-medium">Last Name</p>
-                                    <p className="truncate">{user?.profile?.last_name}</p>
-                                </div>
-                                <div>
-                                    <p className="font-medium">Phone</p>
-                                    <p className="truncate">{user?.profile?.phone}</p>
-                                </div>
-                            </div>
-
-                            {/* Second row with Profession, Category, Remote, and Available */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 py-4">
-                                <div>
-                                    <p className="font-medium">Profession</p>
-                                    <p>{user?.profile?.profession}</p>
-                                </div>
-                                <div>
-                                    <p className="font-medium">Category</p>
-                                    <p>{user?.profile?.category}</p>
-                                </div>
-                                <div className="flex justify-between md:justify-start md:gap-4 items-center">
-                                    <div className="flex items-center">
-                                        <p className="font-medium">Available </p>
-                                        <span className={`inline-block w-3 h-3 ml-2 rounded-full bg-green-500`}></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 py-4">
-                                <div>
-                                    <p className="font-medium">City</p>
-                                    <p className="truncate">{user?.profile?.city} </p>
-                                </div>
-                                <div>
-                                    <p className="font-medium">State</p>
-                                    <p className="truncate">{user?.profile?.state}</p>
-                                </div>
-                                <div>
-                                    <p className="font-medium">Country</p>
-                                    <p className="truncate">United States</p>
-                                </div>
-                            </div>
-
-
-                            {/* Description */}
-                            <div className="py-4">
-                                <p className="font-medium">Description</p>
-                                <p>{user?.profile?.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+  return (
+    <div className="flex justify-center lg:mt-40 lg:mx-0 mx-6">
+      <div className="w-full max-w-6xl">
+        
+        
+          {/* Purple banner at the top */}
+          <div className="relative bg-purple-600 rounded-t-lg h-48 px-4 pt-4 pb-16 flex justify-end items-center">
+          <BiPencil size={24} className="text-white" />
+          <BiUserCircle size={24} className="text-white" />
         </div>
-    );
+
+        {/* White block for user info */}
+        <div className="bg-white rounded-b-lg shadow-lg px-6 pt-16 pb-8 -mt-12 relative z-10">
+          {/* User's avatar */}
+          <div className="absolute -top-24 left-5 w-36 h-36 rounded-full overflow-hidden border-4 border-white">
+            {user?.profile?.avatar ? 
+            <Image
+            src={user?.profile?.avatar}
+            alt="Profile picture"
+            width={144}
+            height={144}
+            className="object-cover"
+          />:  <BiUser size={100} className="rounded-full mb-2" />
+            }
+            
+          </div>
+
+          {/* User's information */}
+          <div>
+            <h1 className="text-2xl font-bold">{user?.profile?.first_name} {user?.profile?.last_name}</h1>
+            <h2 className="text-xl mb-1">{user?.profile?.profession}</h2>
+            <p className="text-sm mb-1">{user?.profile?.city}, {user?.profile?.state}, United States</p>
+            <p className="text-sm mb-1 flex"><BiPhone className="mr-1"  size={20}/> {user?.profile?.phone}</p>
+            <p className="text-sm mb-1 flex"><BiLogoGmail  className="mr-1" size={20}/> {user?.user?.user_email}</p>
+            <div className="flex space-x-2 mt-4">
+              <button className="border rounded-md py-1 px-3 text-sm">
+                Open to contract
+              </button>
+              <button className="border rounded-md py-1 px-3 text-sm">
+               Searching for gigs
+              </button>
+              <button className="border rounded-md py-1 px-3 text-sm">
+               Hiring
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* About Section */}
+        <div className="bg-white rounded-lg shadow-lg px-6 pt-8 pb-4 mt-4">
+          <h3 className="text-lg font-semibold">About</h3>
+          <p>{user?.profile?.description}</p>
+        </div>
+
+        {/* Experience Section */}
+        <div className="bg-white rounded-lg shadow-lg px-6 pt-8 pb-4 mt-4 mb-10">
+          <h3 className="text-lg font-semibold">Experience</h3>
+          {/* Replace with actual experience items */}
+          <p>Vitality - Company</p>
+          <p>QuicklyJobs - Previous role</p>
+        </div>
+      </div>
+    </div>
+  );
 }

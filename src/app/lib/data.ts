@@ -32,3 +32,15 @@ export async function LoginFetch<loginInputs>(data: loginInputs){
     }
 } 
 
+export async function fetchServices(){
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/services`)
+    const json = await res.json()
+    return(json)
+}
+
+export async function fetchOportunites(){
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/requests`)
+    const json = await res.json()
+    return(json)
+}
+
