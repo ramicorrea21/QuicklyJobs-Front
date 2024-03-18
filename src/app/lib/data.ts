@@ -44,3 +44,8 @@ export async function fetchOportunites(){
     return(json)
 }
 
+export async function fetchService(user_id: number, service_id: number){
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/service/${user_id}/${service_id}`);
+    const json = await res.json()
+    return(json)
+}
