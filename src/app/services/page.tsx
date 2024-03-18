@@ -3,6 +3,7 @@ import ServiceCard from "../components/catalogs/serviceCard"
 import { useEffect, useState } from "react"
 
 export type OfferType = {
+    id : number,
     title: string,
     description: string,
     pictures: string,

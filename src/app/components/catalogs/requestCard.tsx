@@ -1,6 +1,7 @@
 import { OportunityType } from "@/app/oportunities/page"
 import Image from "next/image";
 import { FaUser } from "react-icons/fa";
+import Link from "next/link";
 
 interface RequestCardProps {
     op: OportunityType;
@@ -52,7 +53,8 @@ export default function RequestCard({ op }: RequestCardProps) {
         <p className="text-xs text-gray-500 self-start my-1 lg:max-w-96 max-w-full break-words">{op.description}</p>
   
         {/* Precio */}
-        <div className="flex justify-end items-center w-full border-t mt-2 border-gray-200 pt-2">
+        <div className="flex justify-between items-center w-full border-t mt-2 border-gray-200 pt-2">
+          <Link href={`/oportunities/${op.user_id}/${op.id}`}>More Info</Link>
           <span className="text-lg text-red-600 font-bold">{op.price_min} - {op.price_max} US$</span>
         </div>
       </div>

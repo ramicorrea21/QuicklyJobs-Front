@@ -1,7 +1,7 @@
 import { OfferType } from "@/app/services/page";
 import Image from "next/image";
 import { FaUser } from "react-icons/fa";
-
+import Link from "next/link";
 interface RequestCardProps {
     off: OfferType;
 }
@@ -52,7 +52,8 @@ export default function RequestCard({ off }: RequestCardProps) {
         <p className="text-xs text-gray-500 self-start my-1 lg:max-w-96 max-w-full break-words">{off.description}</p>
   
         {/* Precio */}
-        <div className="flex justify-end items-center w-full border-t mt-2 border-gray-200 pt-2">
+        <div className="flex justify-between items-center w-full border-t mt-2 border-gray-200 pt-2">
+          <Link href={`/services/${off.user_id}/${off.id}`}>More Info</Link>
           <span className="text-lg text-red-600 font-bold">{off.price_min} - {off.price_max} US$</span>
         </div>
       </div>

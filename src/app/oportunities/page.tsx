@@ -3,6 +3,7 @@ import RequestCard from "../components/catalogs/requestCard"
 import { useEffect, useState } from "react"
 
 export type OportunityType={
+    id: number,
     title : string,
     description:string,
     pictures:string,
