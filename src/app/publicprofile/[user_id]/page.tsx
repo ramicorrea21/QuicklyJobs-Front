@@ -3,7 +3,8 @@ import Image from "next/image"
 export default async function PublicProfile({params : user_id} : {params : {user_id : number}}){
     const id = user_id.user_id
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/publicprofile/${id}`)
-    const profile = await res.json()
+    const profile = await res.json() 
+
     
 
     return( 

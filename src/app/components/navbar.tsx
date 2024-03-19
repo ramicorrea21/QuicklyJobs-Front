@@ -32,7 +32,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav className=" shadow fixed top-0 bg-white w-screen">
+    <nav className=" shadow fixed top-0 bg-white w-screen z-50">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
           <div className='lg:hidden mr-1' onClick={toggleMenu}><GiHamburgerMenu size={20} /></div>

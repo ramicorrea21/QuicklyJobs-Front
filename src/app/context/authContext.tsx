@@ -16,13 +16,17 @@ type User = {
       first_name: string,
       last_name: string,
       description: string,
-      address: string,
       profession: string,
       category: string,
       phone: string,
+      available: string,
       country: string,
       city: string,
-      state: string,
+      hiring: string,
+      looking_for : string,
+      company : string,
+      role: string,
+      experience: string,
       avatar: string |null
     } | null;
   };
@@ -99,9 +103,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
 
 
   async function postProfile(data: FormData): Promise<number | undefined> {
+    setLoading(true); 
     const token = localStorage.getItem('token');
     if (!token) {
       console.error("No token found");
+      setLoading(false); 
       return undefined;
     }
   
@@ -124,6 +130,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
     } catch (error) {
       console.error("Error posting profile:", error);
       return 500;
+    } finally {
+      fetchUser(); 
     }
   }
   
