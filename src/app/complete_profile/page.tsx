@@ -16,20 +16,19 @@ export type ProfileInputs = {
     first_name: string,
     last_name: string,
     description: string,
-    address: string,
     profession: string,
     category: string,
     phone: string,
-    available: boolean,
+    available: string, 
     city: string,
-    country : string,
+    country: string,
     hiring: string,
     looking_for: string,
-    company : string,
+    company: string,
     role: string,
-    experience : string,
-    avatar: FileList | null;
-}
+    experience: string,
+    avatar: FileList | null, 
+};
 
 export default function CompleteProfile() {
     const { postProfile } = useAuth();

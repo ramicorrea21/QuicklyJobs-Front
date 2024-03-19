@@ -22,3 +22,26 @@ export const profileSchema = z.object({
     })
     .optional(),
 })
+
+export const profileUpdateSchema = z.object({
+  first_name: z.string().min(1, "First name is required").optional(),
+  last_name: z.string().min(1, "Last name is required").optional(),
+  description: z.string().min(40, "Description must have at least 20 characters").max(350, "Description can have max 350 characters").optional(),
+  profession: z.string().min(1, "Profession is required").optional(),
+  category: z.string().min(1, "Category is required").optional(),
+  phone: z.string().min(10, "Phone number is too short").max(25, "Phone number is too long").optional(),
+  available: z.string().optional(), // Consider using z.enum() if you have specific values for this field
+  city: z.string().min(3, "City is required").optional(),
+  country: z.string().min(1, "Country is required").optional(),
+  hiring: z.string().optional(), // Consider using z.enum() here as well
+  looking_for: z.string().optional(), // Consider using z.enum() here too
+  company: z.string().optional(),
+  role: z.string().optional(),
+  experience: z.string().optional(),
+  avatar: z
+  .instanceof(FileList)
+  .refine(files => files.length > 0, {
+    message: "You must select a profile picture",
+  })
+  .optional(), 
+}).partial();
