@@ -6,7 +6,7 @@ import { LoginFetch } from '../lib/data';
 import { ProfileInputs } from '../complete_profile/page';
 import { useRouter } from 'next/navigation';
 
-type User = {
+export type User = {
     user: {
       id: number;
       user_email: string;

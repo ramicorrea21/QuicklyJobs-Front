@@ -1,18 +1,24 @@
 'use client';
 import Image from "next/image";
 import { BiPencil, BiUserCircle, BiUser, BiPhone, BiLogoGmail } from "react-icons/bi";
+import { FaRegEdit } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
 import ProfileSkeleton from "../components/skeletons/ProfileSkeleton";
+import { useState } from "react";
+import EditProfileModal from "../components/editprofile";
 
 export default function Profile() {
   const {user, loading} = useAuth()
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const toggleEditModal = () => setIsEditModalOpen(!isEditModalOpen);
 
   if (loading) {
     return <ProfileSkeleton />;
   }
 
   return (
-    <div className="flex justify-center lg:mt-40 lg:mx-0 mx-6">
+    <>
+      <div className="flex justify-center lg:mt-40 lg:mx-0 mx-6">
       <div className="w-full max-w-6xl">
         
         
@@ -37,6 +43,7 @@ export default function Profile() {
           </div>
 
           {/* User's information */}
+          <div className="flex justify-between">
           <div>
             <h1 className="text-2xl font-bold">{user?.profile?.first_name} {user?.profile?.last_name}</h1>
             <h2 className="text-xl mb-1">{user?.profile?.profession}</h2>
@@ -60,16 +67,23 @@ export default function Profile() {
               }
             </div>
           </div>
+          <div className="cursor-pointer">
+          <FaRegEdit onClick={toggleEditModal} size={25}/>
+
+          </div>
+
+          </div>
+          
         </div>
 
         {/* About Section */}
-        <div className="bg-white rounded-lg shadow-lg px-6 pt-8 pb-4 mt-4">
+        <div className="bg-white rounded-lg shadow-lg px-6 pt-4 pb-4 mt-4">
           <h3 className="text-lg font-semibold">About</h3>
           <p>{user?.profile?.description}</p>
         </div>
 
         {/* Experience Section */}
-        <div className="bg-white rounded-lg shadow-lg px-6 pt-8 pb-4 mt-4 mb-10">
+        <div className="bg-white rounded-lg shadow-lg px-6 pt-4 pb-4 mt-4 mb-10">
           <h3 className="text-lg font-semibold">Experience</h3>
           {/* Replace with actual experience items */}
           <p>{user?.profile?.company} - Company</p>
@@ -78,5 +92,8 @@ export default function Profile() {
         </div>
       </div>
     </div>
+    <EditProfileModal isOpen={isEditModalOpen} onClose={toggleEditModal} user={user} />
+    </>
+  
   );
 }
