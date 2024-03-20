@@ -2,10 +2,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileUpdateSchema } from '../validations/profileSchema'; // Asegúrate de que esta ruta sea correcta
 import { User } from '../context/authContext';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { categories, countries } from '../utils/options';
-import { ProfileInputs } from '../complete_profile/page';
 import Image from 'next/image';
+import { useAuth } from '../context/authContext';
+import { useRouter } from 'next/navigation';
 
 type EditProfile = {
     first_name?: string;
@@ -34,7 +35,8 @@ interface EditProfileModalProps {
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, user }) => {
     const [avatarUrl, setAvatarUrl] = useState(user?.profile?.avatar || 'default_avatar_url.png');
     const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
-
+    const {editProfile} = useAuth()
+    const router = useRouter()
 
     const {
         register,
@@ -75,23 +77,26 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
     const onSubmit: SubmitHandler<EditProfile> = async (data) => {
         const formData = new FormData();
-      
-        // Añade los campos del formulario al formData
+
         for (const [key, value] of Object.entries(data)) {
-          if (value !== null) {
-            formData.append(key, value);
-          }
+            if (value !== null) {
+                formData.append(key, value);
+            }
         }
-      
-        // Añade el archivo del avatar si el usuario seleccionó uno
+
         if (selectedAvatar) {
-          formData.append('avatar', selectedAvatar);
+            formData.append('avatar', selectedAvatar);
         }
-      
-        // Ahora puedes enviar formData a tu servidor
-        console.log(Array.from(formData));
-        // Aquí implementarías la lógica para hacer el POST o PUT request
-      };
+
+        const status = await editProfile(formData)
+
+        if(status == 200){
+              onClose()
+        }else{
+            alert('Error editing profile')
+        }
+
+    };
 
 
     if (!isOpen) return null;
@@ -101,8 +106,16 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             <div className="bg-white p-5 rounded-lg w-full max-w-4xl mx-auto my-6">
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <h2 className="text-xl font-semibold col-span-full">Edit Profile</h2>
-                    <div className="flex flex-col items-center">
-                        <Image src={avatarUrl} alt="Avatar" width={400} height={200} className="h-24 w-24 rounded-full" />
+                    <div className="col-span-full flex justify-center items-center flex-col">
+                        <div className="avatar-wrapper">
+                            <Image
+                                src={avatarUrl}
+                                alt="Avatar"
+                                width={100} 
+                                height={100} 
+                                className="rounded-full" 
+                            />
+                        </div>
                         <input
                             type="file"
                             id="avatar"

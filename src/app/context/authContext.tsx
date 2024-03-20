@@ -40,6 +40,7 @@ export type User = {
     loading : boolean
     PostRequest : (data : FormData) => Promise<number | undefined>
     PostService : (data : FormData) => Promise<number | undefined>
+    editProfile: (data: FormData) => Promise<number | undefined>;
   };
 type AuthProviderProps = {
     children: ReactNode;
@@ -185,9 +186,52 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
 
   }
 
+  async function editProfile(data: FormData): Promise<number | undefined> {
+    setLoading(true);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("No token found");
+      setLoading(false);
+      return undefined;
+    }
+    try {
+      let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          // 'Content-Type': 'multipart/form-data' // Esta línea usualmente no es necesaria, ya que el navegador la establece automáticamente con el boundary correcto.
+        },
+        body: data
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const profileData = await response.json(); // Asegúrate de que esta línea extrae correctamente el perfil del cuerpo de respuesta.
+    
+      setUser((currentUser) => {
+        if (!currentUser) return null;
+        const updatedProfile = {
+          ...currentUser.profile,
+          ...profileData
+        };
+      
+        return {
+          ...currentUser,
+          profile: updatedProfile
+        };
+      });
+    
+      return response.status;
+    } catch (error) {
+      console.error("Error editing profile:", error);
+      return 500;
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, postProfile, PostRequest, PostService}}>
+    <AuthContext.Provider value={{ user, login, logout, loading, postProfile, PostRequest, PostService, editProfile}}>
       {children}
     </AuthContext.Provider>
   );
