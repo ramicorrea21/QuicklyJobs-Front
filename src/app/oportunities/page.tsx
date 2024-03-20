@@ -13,7 +13,8 @@ export type OportunityType={
     user_id: number,
     category:string,
     remote: string,
-    user_handle: string
+    user_handle: string,
+    profession : string
 }
 
 

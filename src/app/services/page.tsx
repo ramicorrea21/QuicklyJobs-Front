@@ -12,8 +12,9 @@ export type OfferType = {
     price_max: string,
     user_id: number,
     category: string,
-    remote: string,
+    is_remote: string,
     user_handle: string
+    profession: string,
 }
 
 

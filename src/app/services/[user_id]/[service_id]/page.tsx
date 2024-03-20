@@ -11,7 +11,7 @@ type post_info = {
     pictures: string,
     price_max: string,
     price_min: string,
-    state: string,
+    country: string,
     title: string,
     user_handle: string,
     user_id: number
@@ -28,7 +28,7 @@ type user_info = {
     phone: string,
     profession: string,
     role: string | null,
-    state: string,
+    country: string,
     user_id: number,
     city: string
 }
@@ -42,48 +42,51 @@ export default async function Service({ params: { user_id, service_id } }: { par
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center w-full min-h-screen">
+            <div className="flex flex-col items-center justify-center w-full min-h-screen px-4">
                 {/* Tarjeta Principal del Servicio */}
                 <div className="bg-white shadow-xl rounded-lg max-w-4xl w-full mx-auto p-4 mb-8">
-                    <div className="flex flex-wrap md:flex-nowrap">
+                    <div className="flex flex-wrap md:flex-nowrap md:items-start"> {/* Asegúrate de que los elementos estén alineados al inicio */}
                         {/* Contenedor de Imágenes */}
                         <div className="w-full md:w-1/2">
-                            <Image
-                                src={service_info?.pictures} // Asegúrate de que esto sea una URL válida
-                                alt="Service Image"
-                                width={500}
-                                height={500}
-                                className="rounded-lg"
-                            />
+                            <div className="relative h-80 w-full">
+                                <Image
+                                    src={service_info?.pictures}
+                                    alt="Service Image"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-lg"
+                                />
+                            </div>
                         </div>
                         {/* Detalles del Servicio con iconos */}
-                        <div className="w-full md:w-1/2 p-4 space-y-4">
-                            <h2 className="text-3xl font-bold">{service_info.title}</h2>
-                            <p className="text-gray-700">{service_info.description}</p>
-                            <div className="flex items-center text-sm">
-                                <FaTag className="text-primary mr-2" />
-                                <span>{service_info.category}</span>
-                            </div>
-                            <div className="flex items-center text-sm">
-                                <FaMapMarkerAlt className="text-primary mr-2" />
-                                <span>{service_info.city}, {service_info.state}</span>
-                            </div>
-                            <div className="flex items-center text-sm">
-                                <FaLaptop className="text-primary mr-2" />
-                                <span>{service_info.is_remote}</span>
-                            </div>
-                            <div className="flex items-center text-sm">
-                                <FaTag className="text-primary mr-2" />
-                                <span>Price range: {service_info.price_min} - {service_info.price_max} USD</span>
+                        <div className="w-full md:w-1/2 p-4 space-y-6 flex flex-col justify-between"> {/* Flexbox column con justify-between para espacio */}
+                            <div>
+                                <h2 className="text-3xl font-bold my-1">{service_info.title}</h2>
+                                <p className="text-gray-700 my-1">{service_info.description}</p>
+                                <div className="flex items-center text-sm my-1">
+                                    <FaTag className="text-primary mr-2" />
+                                    <span>{service_info.category}</span>
+                                </div>
+                                <div className="flex items-center text-sm my-1">
+                                    <FaMapMarkerAlt className="text-primary mr-2" />
+                                    <span>{service_info.city}, {service_info.country}</span>
+                                </div>
+                                <div className="flex items-center text-sm my-1">
+                                    <FaLaptop className="text-primary mr-2" />
+                                    <span>Remote: {service_info.is_remote}</span>
+                                </div>
+                                <div className="flex items-center text-sm my-1">
+                                    <FaTag className="text-primary mr-2" />
+                                    <span>Price range: {service_info.price_min} - {service_info.price_max} USD</span>
+                                </div>
                             </div>
                             <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center">
-                                <FaEnvelope className="mr-2" /> {/* Asegúrate de importar FaEnvelope de react-icons */}
-                                Contact Ramiro for this service
+                                <FaEnvelope className="mr-2" />
+                                Contact {user_info.first_name} for this service
                             </button>
                         </div>
                     </div>
                 </div>
-
                 {/* Sección "About" con mejora visual */}
                 <div className="bg-white shadow-xl rounded-lg max-w-4xl w-full mx-auto p-4 space-y-3">
                     <Link href={`/publicprofile/${user_info.user_id}`}>
@@ -113,13 +116,13 @@ export default async function Service({ params: { user_id, service_id } }: { par
                             <FaBriefcase className="text-primary mr-2" />
                             <span>{user_info.profession}</span>
                         </div>
-                        <div className="flex items-center text-sm">
-                            <FaInfoCircle className="text-primary mr-2" />
-                            <span>{user_info.description}</span>
+                        <div className="flex items-center">
+                            <FaInfoCircle size={30} className="text-primary mr-2" />
+                            <span className="text-sm">{user_info.description}</span>
                         </div>
                         <div className="flex items-center">
                             <FaMapMarkerAlt className="text-primary mr-2" />
-                            <span>{user_info.city}, {user_info.state}</span>
+                            <span>{user_info.city}, {user_info.country}</span>
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import { FaUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from 'sweetalert2'
+import { FaLaptop } from "react-icons/fa";
 
 
 export type postInputs = {
@@ -40,6 +41,7 @@ export default function RequestForm() {
     const description = watch('description')
     const price_min = watch('price_min')
     const price_max = watch('price_max')
+    const remote = watch('remote')
 
     useEffect(() => {
         if (images && images.length > 0) {
@@ -108,7 +110,7 @@ export default function RequestForm() {
                                         TITLE*
                                         <p className="block text-sm font-medium leaging-6 text-red-500">{errors.title?.message}</p>
                                     </label>
-                                    <input type="text" id="title" {...register('title')} placeholder="Example: I need a car mechanic" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    <input type="text" maxLength={40} id="title" {...register('title')} placeholder="Example: I can fix your car" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>
                                 <div className="w-full md:w-1/2 px-3">
                                     <label htmlFor="category" className="block text-gray-700 text-sm font-bold mb-2">
@@ -131,7 +133,7 @@ export default function RequestForm() {
                                     DESCRIPTION*
                                     <p className="block text-sm font-medium leaging-6 text-red-500">{errors.description?.message}</p>
                                 </label>
-                                <textarea id="description" {...register('description')} placeholder="A brief description of what you do..." className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" ></textarea>
+                                <textarea maxLength={350} id="description" {...register('description')} placeholder="A brief description of what you do..." className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" ></textarea>
                             </div>
 
                             <div className="flex flex-wrap -mx-3 mb-6">
@@ -155,8 +157,8 @@ export default function RequestForm() {
                                         <p className="block text-sm font-medium leaging-6 text-red-500">{errors.price_min?.message}</p>
                                     </label>
                                     <div className="flex">
-                                        <input type="number" maxLength={6}  {...register('price_min')} id="min-price" placeholder="0" className="shadow appearance-none border rounded-l w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                        <input type="number" maxLength={6}  id="max-price" {...register('price_max')} placeholder="299" className="shadow appearance-none border-t border-b border-r rounded-r w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                        <input type="number" maxLength={6} onInput={e => e.currentTarget.value = e.currentTarget.value.slice(0, 6)}  {...register('price_min')} id="min-price" placeholder="0" className="shadow appearance-none border rounded-l w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                        <input type="number" maxLength={6} onInput={e => e.currentTarget.value = e.currentTarget.value.slice(0, 6)} id="max-price" {...register('price_max')} placeholder="299" className="shadow appearance-none border-t border-b border-r rounded-r w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/2 px-3">
@@ -164,7 +166,7 @@ export default function RequestForm() {
                                         IMAGES*
                                         <p className="block text-sm font-medium leaging-6 text-red-500">{errors.images?.message}</p></label>
                                     <input type="file" id="file-upload" {...register('images')} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                    <p className="text-xs text-gray-500 mt-1">oferta.jpg</p>
+                                    <p className="text-xs text-gray-500 mt-1">offer.jpg</p>
                                 </div>
                             </div>
 
@@ -179,21 +181,21 @@ export default function RequestForm() {
                     </div>
 
                     {/* Card de vista previa */}
-                    <div className="w-full lg:w-2/6">
-                        <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center text-center">
+                    <div className="w-full lg:w-2/6 max-w-sm">
+                        <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col  ">
                                 {previewImage && (
-                                    <div className="mb-4 p-4 border-b border-gray-200 w-full">
+                                    <div className="mb-2 p-4  h-48 overflow-hidden  max-w-md">
                                         <Image
                                             src={previewImage}
                                             alt="Preview Image"
-                                            width={400} // Establece el tamaño que desees
+                                            width={400} 
                                             height={200}
-                                            className="rounded"
+                                            className="max-w-full h-auto rounded"
                                         />
                                     </div>
                                 )}
-                            <div className="flex justify-between items-center w-full">
-                                <div className="flex items-center">
+                            <div className="flex justify-between items-center border-t mt-2 border-gray-200 w-full">
+                                <div className="flex items-center mt-4">
                                     <div className="flex items-start">
                                         {user?.profile?.avatar ? (
                                             <Image
@@ -209,15 +211,15 @@ export default function RequestForm() {
                                         <span className="text-md ml-1">{user?.user?.user_handle}</span>
                                     </div>
                                 </div>
-                                <div className="flex items-center">
-                                    <span className="text-sm text-yellow-400">9.9</span>
-                                    <span className="text-xs text-gray-500">(999 users)</span>
+                                <div className="flex items-center mt-2">
+                                    <span className="text-sm text-gray-500">{user?.profile?.profession}</span>
                                 </div>
                             </div>
-                            <h3 className="text-lg font-bold mb-1 self-start  lg:max-w-96 max-w-full    break-words">{title}</h3>
+                            <h3 className="text-md font-bold mb-1 self-start mt-1 lg:max-w-96 max-w-full    break-words">{title}</h3>
                             <p className="text-xs text-gray-500 self-start my-1 lg:max-w-96 max-w-full break-words">{description}</p>
-                            <div className="flex justify-end items-center w-full  border-t mt-2 border-gray-200">
-                                <span className="text-lg text-red-600 font-bold">{price_min} - {price_max} US$</span>
+                            <div className="flex justify-between items-center w-full  border-t mt-2 border-gray-200">
+                                <span className="text-sm flex mt-2  font-semibold"><FaLaptop size={20} className=" mx-1" />Remote: {remote}</span>
+                                <span className="text-lg mt-2  font-bold">{price_min} - {price_max} US$</span>
                             </div>
                         </div>
                     </div>
