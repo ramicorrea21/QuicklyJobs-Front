@@ -8,7 +8,7 @@ interface RequestCardProps {
 }
 
 
-export default function RequestCard({ off }: RequestCardProps) {
+export default function ServiceCard({ off }: RequestCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col h-full">
       {off.pictures && (
@@ -56,7 +56,7 @@ export default function RequestCard({ off }: RequestCardProps) {
           {off.price_min} - {off.price_max} US$
         </span>
       </div>
-      <Link href={`/services/${off.user_id}/${off.id}`} className="mt-4 text-indigo-600 hover:text-indigo-800 transition duration-300 text-sm font-semibold">
+      <Link href={`/services/${off.user_id}/${off.id}`} className="mt-4 text-indigo-600 text-center hover:text-indigo-800 transition duration-300 text-sm font-semibold">
           More Info
       </Link>
     </div>

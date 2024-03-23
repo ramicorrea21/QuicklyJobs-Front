@@ -10,7 +10,7 @@ type post_info = {
     city: string,
     description: string,
     id: number,
-    is_remote: string,
+    remote: string,
     pictures: string,
     price_max: string,
     price_min: string,
@@ -18,7 +18,6 @@ type post_info = {
     title: string,
     user_handle: string,
     user_id: number
-    remote: string
 }
 type user_info = {
     available: string,
@@ -90,7 +89,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
                                 </div>
                                 <div className="flex items-center text-sm my-1">
                                     <FaLaptop className="text-primary mr-2" />
-                                    <span>Remote: {request?.is_remote}</span>
+                                    <span>Remote: {request?.remote}</span>
                                 </div>
                                 <div className="flex items-center text-sm my-1">
                                     <FaTag className="text-primary mr-2" />

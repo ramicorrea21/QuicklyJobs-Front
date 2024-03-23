@@ -40,7 +40,7 @@ export default function RequestCard({ op }: RequestCardProps) {
             )}
             <span className="text-md ml-1">{op.user_handle}</span>
           </div>
-          <span className="text-sm text-gray-500">{op.profession}</span>
+          <span className="text-sm text-gray-500 mt-3">{op.profession}</span>
         </div>
 
         <h3 className="text-md font-bold mt-2 overflow-hidden text-ellipsis whitespace-nowrap">{op.title}</h3>

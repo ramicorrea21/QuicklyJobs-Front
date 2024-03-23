@@ -1,9 +1,10 @@
 'use client'
-import ServiceCard from "../components/catalogs/serviceCard"
+import RequestCard from "../components/catalogs/requestCard"
 import { useEffect, useState } from "react"
-
+import { categories } from "../utils/options"
+import ServiceCard from "../components/catalogs/serviceCard"
 export type OfferType = {
-    id : number,
+    id: number,
     title: string,
     description: string,
     pictures: string,
@@ -13,30 +14,102 @@ export type OfferType = {
     user_id: number,
     category: string,
     is_remote: string,
-    user_handle: string
-    profession: string,
+    user_handle: string,
+    profession: string
 }
 
 
-
-export default function Services() {
-    const [offers, setOffers] = useState<OfferType[]>([])
+export default function Page() {
+    const [services, setServices] = useState<OfferType[]>([])
+    const [categoryFilter, setCategoryFilter] = useState('');
+    const [remoteFilter, setRemoteFilter] = useState('');
+    const [priceMinFilter, setPriceMinFilter] = useState('');
+    const [priceMaxFilter, setPriceMaxFilter] = useState('');
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/services`)
             .then(res => res.json())
-            .then(data => setOffers(data))
+            .then(data => setServices(data))
     }, [])
 
+    const filteredOportunities = services.filter((op) => {
+        const matchesCategory = categoryFilter ? op.category === categoryFilter : true;
+        const matchesRemote = remoteFilter ? op.is_remote === remoteFilter : true;
+        const matchesPrice = (priceMinFilter ? parseFloat(op.price_min) >= parseFloat(priceMinFilter) : true) &&
+            (priceMaxFilter ? parseFloat(op.price_max) <= parseFloat(priceMaxFilter) : true);
+
+        return matchesCategory && matchesRemote && matchesPrice;
+    });
+
     return (
-        <div className="container mx-auto px-4 flex justify-center h-screen items-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {offers?.map((off : OfferType, index : number) =>{
+        <>
+            <div className="container mx-auto p-4 h-screen flex items-center">
+        <div className="flex flex-wrap">
+          {/* Sidebar para filtros con un ancho del 25% de la pantalla y un margen automático a la derecha */}
+          <aside className="w-full lg:w-1/4 px-4 mb-6 lg:mb-0">
+            <div className="bg-white p-6 shadow rounded">
+              <div className="mb-4">
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
+                >
+                  <option value=''>Select Category</option>
+                  {categories.map((cat) =>{
                     return(
-                        <ServiceCard key={index}  off={off} />
+                        <option key={cat}>{cat}</option>
                     )
-                })}  
-            </div> 
+                  })}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox"
+                    checked={remoteFilter === 'Yes'}
+                    onChange={(e) => setRemoteFilter(e.target.checked ? 'Yes' : '')}
+                  />
+                  <span>Remote Only</span>
+                </label>
+              </div>
+              <div className="mb-4">
+                <input
+                  type="number"
+                  placeholder="Min Price"
+                  value={priceMinFilter}
+                  onChange={(e) => setPriceMinFilter(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <input
+                  type="number"
+                  placeholder="Max Price"
+                  value={priceMaxFilter}
+                  onChange={(e) => setPriceMaxFilter(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+            </div>
+          </aside>
+  
+          {/* Contenedor principal para las tarjetas */}
+          <main className="w-full lg:w-3/4 px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredOportunities.length > 0 ? (
+              filteredOportunities.map((op, index) => (
+                <ServiceCard key={index} off={op} />
+              ))
+            ) : (
+              <div className="col-span-full text-center text-gray-500">
+                No se encontraron coincidencias.
+              </div>
+            )}
+          </div>
+        </main>
         </div>
+      </div>
+        </>
     )
 }
