@@ -1,6 +1,9 @@
+'use client'
 import Image from "next/image";
 import { FaMapMarkerAlt, FaLaptop, FaTag, FaUserCircle, FaBriefcase, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
 import Link from "next/link";
+import { useState, useEffect } from "react";
+
 type post_info = {
     avatar: string,
     category: string,
@@ -35,70 +38,80 @@ type user_info = {
 }
 
 
-export default async function Request({ params: { user_id, request_id } }: { params: { user_id: number, request_id: number } }) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/request/${user_id}/${request_id}`);
-    const request = await res.json()
+export default function Request({ params: { user_id, request_id } }: { params: { request_id: number, user_id: number } }) {
+    const [request, setRequest] = useState<post_info>()
+    const [user_info, setUserInfo] = useState<user_info>()
 
-    const request_info: post_info = request[0]
-    const user_info: user_info = request[1]
+
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/request/${request_id}`)
+            .then(res => res.json())
+            .then(data => setRequest(data))
+
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${user_id}`)
+            .then(res => res.json())
+            .then(data => setUserInfo(data))
+    }, [])
+
 
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center w-full min-h-screen">
+            <div className="flex flex-col items-center justify-center w-full min-h-screen px-4">
                 {/* Tarjeta Principal del Servicio */}
                 <div className="bg-white shadow-xl rounded-lg max-w-4xl w-full mx-auto p-4 mb-8">
                     <div className="flex flex-wrap md:flex-nowrap md:items-start"> {/* Asegúrate de que los elementos estén alineados al inicio */}
                         {/* Contenedor de Imágenes */}
                         <div className="w-full md:w-1/2">
                             <div className="relative h-80 w-full">
-                                <Image
-                                    src={request_info?.pictures}
-                                    alt="Service Image"
-                                    layout="fill"
-                                    objectFit="cover"
-                                    className="rounded-lg"
-                                />
+                                {request?.pictures &&
+                                    <Image
+                                        src={request.pictures}
+                                        alt="request Image"
+                                        layout="fill"
+                                        objectFit="cover"
+                                        className="rounded-lg"
+                                    />
+                                }
                             </div>
                         </div>
                         {/* Detalles del Servicio con iconos */}
                         <div className="w-full md:w-1/2 p-4 space-y-6 flex flex-col justify-between"> {/* Flexbox column con justify-between para espacio */}
                             <div>
-                                <h2 className="text-3xl font-bold my-1">{request_info.title}</h2>
-                                <p className="text-gray-700 my-1">{request_info.description}</p>
+                                <h2 className="text-3xl font-bold my-1">{request?.title}</h2>
+                                <p className="text-gray-700 my-1">{request?.description}</p>
                                 <div className="flex items-center text-sm my-1">
                                     <FaTag className="text-primary mr-2" />
-                                    <span>{request_info.category}</span>
+                                    <span>{request?.category}</span>
                                 </div>
                                 <div className="flex items-center text-sm my-1">
                                     <FaMapMarkerAlt className="text-primary mr-2" />
-                                    <span>{request_info.city}, {request_info.country}</span>
+                                    <span>{request?.city}, {request?.country}</span>
                                 </div>
                                 <div className="flex items-center text-sm my-1">
                                     <FaLaptop className="text-primary mr-2" />
-                                    <span>Remote: {request_info.remote}</span>
+                                    <span>Remote: {request?.is_remote}</span>
                                 </div>
                                 <div className="flex items-center text-sm my-1">
                                     <FaTag className="text-primary mr-2" />
-                                    <span>Price range: {request_info.price_min} - {request_info.price_max} USD</span>
+                                    <span>Price range: {request?.price_min} - {request?.price_max} USD</span>
                                 </div>
                             </div>
                             <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center">
                                 <FaEnvelope className="mr-2" />
-                                Contact {user_info.first_name} for this service
+                                Contact {user_info?.first_name} for this oportunity
                             </button>
                         </div>
                     </div>
                 </div>
-
                 {/* Sección "About" con mejora visual */}
                 <div className="bg-white shadow-xl rounded-lg max-w-4xl w-full mx-auto p-4 space-y-3">
-                    <Link href={`/publicprofile/${user_info.user_id}`}>
+                    <Link href={`/publicprofile/${request?.user_id}`}>
                         <div className="flex items-center cursor-pointer">
                             <h3 className="text-xl font-bold mr-4">About</h3>
-                            {user_info.avatar ? (
+                            {request?.avatar ? (
                                 <Image
-                                    src={user_info.avatar} // Asegúrate de que esto sea una URL válida
+                                    src={request?.avatar} // Asegúrate de que esto sea una URL válida
                                     alt="user img"
                                     width={30}
                                     height={30}
@@ -107,26 +120,26 @@ export default async function Request({ params: { user_id, request_id } }: { par
                             ) : (
                                 <FaUserCircle size={30} className="text-gray-500 mr-2" />
                             )}
-                            <span className="text-md">{request_info.user_handle}</span>
+                            <span className="text-md">{request?.user_handle}</span>
                         </div>
                     </Link>
 
                     <div className="space-y-1 text-sm">
                         <div className="flex items-center">
                             <FaUserCircle className="text-primary mr-2" />
-                            <span>{user_info.first_name} {user_info.last_name}</span>
+                            <span>{user_info?.first_name} {user_info?.last_name}</span>
                         </div>
                         <div className="flex items-center">
                             <FaBriefcase className="text-primary mr-2" />
-                            <span>{user_info.profession}</span>
+                            <span>{user_info?.profession}</span>
                         </div>
-                        <div className="flex items-center ">
+                        <div className="flex items-center">
                             <FaInfoCircle size={30} className="text-primary mr-2" />
-                            <span className="text-sm">{user_info.description}</span>
+                            <span className="text-sm">{user_info?.description}</span>
                         </div>
                         <div className="flex items-center">
                             <FaMapMarkerAlt className="text-primary mr-2" />
-                            <span>{user_info.city}, {user_info.country}</span>
+                            <span>{user_info?.city}, {user_info?.country}</span>
                         </div>
                     </div>
                 </div>
