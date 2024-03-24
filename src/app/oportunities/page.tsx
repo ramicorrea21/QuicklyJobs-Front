@@ -42,7 +42,7 @@ export default function Page() {
 
     return (
         <>
-            <div className="container mx-auto p-4 h-screen flex items-center">
+            <div className="container mx-auto mt-20 p-4 h-screen flex items-center">
         <div className="flex flex-wrap">
           {/* Sidebar para filtros con un ancho del 25% de la pantalla y un margen automático a la derecha */}
           <aside className="w-full lg:w-1/4 px-4 mb-6 lg:mb-0">

@@ -3,7 +3,8 @@ import Image from "next/image";
 import { FaMapMarkerAlt, FaLaptop, FaTag, FaUserCircle, FaBriefcase, FaInfoCircle, FaEnvelope } from 'react-icons/fa';
 import Link from "next/link";
 import { useState, useEffect } from "react";
-
+import { useAuth } from "@/app/context/authContext";
+import Swal from "sweetalert2";
 type post_info = {
     avatar: string,
     category: string,
@@ -17,8 +18,9 @@ type post_info = {
     country: string,
     title: string,
     user_handle: string,
-    user_id: number
-    remote: string
+    user_id: number,
+    remote: string,
+    email: string
 }
 type user_info = {
     available: string,
@@ -41,7 +43,8 @@ type user_info = {
 export default function Service({ params: { user_id, service_id } }: { params: { service_id: number, user_id: number } }) {
     const [service, setService] = useState<post_info>()
     const [user_info, setUserInfo] = useState<user_info>()
-
+    const [isSendingEmail, setIsSendingEmail] = useState(false);
+    const { user } = useAuth()
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/service/${service_id}`)
@@ -53,6 +56,52 @@ export default function Service({ params: { user_id, service_id } }: { params: {
             .then(data => setUserInfo(data))
     }, [])
 
+
+
+    const handleClick = async () => {
+        setIsSendingEmail(true); // Inicia el indicador de carga
+
+        const email = {
+            "title": service?.title,
+            "phone": user?.profile?.phone,
+            "subject": 'I am interested in your quicklyjobs post',
+            "to": service?.email,
+            "to_name": user_info?.first_name,
+            "my_name": user?.profile?.first_name,
+            "email": user?.user?.user_email
+        }
+
+        try {
+            let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/sendemail`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(email)
+            });
+
+            if (response.status === 200) {
+                Swal.fire({
+                    title: "Good job!",
+                    text: `We sent your contact to ${email.to_name} be aware of your mail or cellphone!`,
+                    icon: "success"
+                });
+            } else {
+                // Manejar la respuesta fallida aquí
+                Swal.fire({
+                    title: "Oops!",
+                    text: "Something went wrong. Please try again later.",
+                    icon: "error"
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "There was an issue sending the email.",
+                icon: "error"
+            });
+        } finally {
+            setIsSendingEmail(false); // Detiene el indicador de carga
+        }
+    };
 
 
     return (
@@ -97,9 +146,16 @@ export default function Service({ params: { user_id, service_id } }: { params: {
                                     <span>Price range: {service?.price_min} - {service?.price_max} USD</span>
                                 </div>
                             </div>
-                            <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center">
-                                <FaEnvelope className="mr-2" />
-                                Contact {user_info?.first_name} for this service
+                            <button onClick={handleClick} disabled={isSendingEmail} className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center">
+                                {isSendingEmail ? (
+                                    // Puedes insertar aquí tu spinner o mensaje de carga
+                                    <div>Loading...</div>
+                                ) : (
+                                    <>
+                                        <FaEnvelope className="mr-2" />
+                                        Contact {user_info?.first_name} for this service
+                                    </>
+                                )}
                             </button>
                         </div>
                     </div>
