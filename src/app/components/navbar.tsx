@@ -18,11 +18,12 @@ export default function Navbar() {
   const { user, logout } = useAuth()
   const [openMenu, setOpenMenu] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu)
   }
-
+  const toggleMobileDropdown = () => setMobileDropdownOpen(!mobileDropdownOpen);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const DropdownItem: React.FC<DropdownItemProps> = ({ href, label }) => (
@@ -102,8 +103,34 @@ export default function Navbar() {
             <Link onClick={toggleMenu} href="/postservice" className="md:hidden  text-black text-center w-56 py-2 text-lg border border-black px-5 my-2 rounded-md  hover:bg-black hover:text-white">
               Offer a service
             </Link>
-            {user?.profile  == null? <Link onClick={toggleMenu} href="/complete_profile" className="md:hidden text-black py-2 text-lg">Profile</Link>:
-             <Link href="/profile" onClick={toggleMenu} className="md:hidden text-black py-2 text-lg">Profile</Link>}
+            {user ? (
+        <div className="text-center py-2">
+          {user?.profile?.avatar ? (
+            <Image src={user.profile.avatar} alt="user img" width={50} height={50} className="inline-block rounded-full"/>
+          ) : (
+            <FaUser size={25} className="inline-block rounded-full mb-2"/>
+          )}
+          <button onClick={toggleMobileDropdown} className="font-semibold text-lg">
+            Yo
+          </button>
+          
+          {mobileDropdownOpen && (
+            <div className="absolute left-0 right-0 mx-auto mt-2 w-48  shadow-md z-10">
+              {user.profile == null ? (
+                <DropdownItem href="/complete_profile" label="Complete Profile" />
+              ) : (
+                <DropdownItem href="/profile" label="Profile" />
+              )}
+              <p onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</p>
+            </div>
+          )}
+        </div>
+      ) : (
+        // Si no hay usuario, muestra el botón de login
+        <Link href="/login" onClick={toggleMenu} className="text-center w-full py-2 text-lg">
+          Login
+        </Link>
+      )}
           </div>
         </div>
       )}

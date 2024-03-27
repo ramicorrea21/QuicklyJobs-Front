@@ -2,7 +2,7 @@ import Banner from "./components/landing/banner";
 export default function Home() {
 
   return (
-    <div className="">
+    <div>
       <Banner/>
     </div>
   );

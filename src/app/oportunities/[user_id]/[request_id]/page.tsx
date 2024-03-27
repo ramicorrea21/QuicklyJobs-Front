@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/app/context/authContext";
 import Swal from "sweetalert2";
+import DetailSkeleton from "@/app/components/skeletons/detailskeleton";
+import { useRouter } from "next/navigation";
 
 
 type post_info = {
@@ -46,7 +48,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
     const [user_info, setUserInfo] = useState<user_info>()
     const { user } = useAuth()
     const [isSendingEmail, setIsSendingEmail] = useState(false);
-
+    const router = useRouter()
 
 
     useEffect(() => {
@@ -61,25 +63,47 @@ export default function Request({ params: { user_id, request_id } }: { params: {
 
 
     const handleClick = async () => {
+        // Asegurarse de que el usuario está cargado y autenticado antes de proceder
+        if (!user) {
+            // Si el usuario no está logueado, muestra un mensaje y redirige al login
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You need to be logged in to contact for services!',
+            });
+            router.push('/login');
+            return;
+        } else if (!user.profile) {
+            // Si el perfil del usuario no está completo, muestra un mensaje y redirige a completar el perfil
+            Swal.fire({
+                icon: 'error',
+                title: 'Profile Incomplete',
+                text: 'Please complete your profile before contacting for services!',
+            });
+            router.push('/complete_profile');
+            return;
+        }
+    
+        // Si el usuario está autenticado y tiene el perfil completo, procede con el envío del email
         setIsSendingEmail(true); // Inicia el indicador de carga
-
+    
         const email = {
             "title": request?.title,
-            "phone": user?.profile?.phone,
+            "phone": user.profile.phone,
             "subject": 'I am interested in your quicklyjobs post',
             "to": request?.email,
             "to_name": user_info?.first_name,
-            "my_name": user?.profile?.first_name,
-            "email": user?.user?.user_email
-        }
-
+            "my_name": user.profile.first_name,
+            "email": user.user.user_email
+        };
+    
         try {
             let response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/sendemail`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(email)
             });
-
+    
             if (response.status === 200) {
                 Swal.fire({
                     title: "Good job!",
@@ -105,9 +129,13 @@ export default function Request({ params: { user_id, request_id } }: { params: {
         }
     };
 
+    if (!request || !user_info) {
+        return <DetailSkeleton />;
+      }
+
     return (
         <>
-            <div className="flex flex-col items-center justify-center w-full min-h-screen px-4">
+            <div className="flex flex-col items-center justify-center md:mt-0 mt-20 w-full min-h-screen px-4">
                 {/* Tarjeta Principal del Servicio */}
                 <div className="bg-white shadow-xl rounded-lg max-w-4xl w-full mx-auto p-4 mb-8">
                     <div className="flex flex-wrap md:flex-nowrap md:items-start"> {/* Asegúrate de que los elementos estén alineados al inicio */}

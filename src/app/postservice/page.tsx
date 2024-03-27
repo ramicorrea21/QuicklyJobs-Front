@@ -28,7 +28,7 @@ export default function PostService(){
 
 
     return(
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center mt-32 md:mt-0 items-center h-screen">
         <RequestForm/>
     </div>
     )

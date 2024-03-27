@@ -31,7 +31,7 @@ export default function PostOportunity(){
 
 
     return(
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center mt-32 md:mt-0 h-screen">
         <OfferForm />
     </div>
     )

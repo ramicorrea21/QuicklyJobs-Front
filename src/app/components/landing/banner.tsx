@@ -1,23 +1,23 @@
-import Link from "next/link"
-export default function Banner(){
-    return(
-        <div className="flex flex-col items-center justify-center min-h-screen">
-        <div className="text-center p-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-            Connecting You to Professional Services
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-xl mx-auto">
-            Discover experts ready to deliver on-demand. Simplify your service needs with our platform.
-          </p>
-          <div className="flex flex-col md:flex-row justify-center gap-4">
-            <Link href="/request-service" className="border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white">
-              Request a Service
-            </Link>
-            <Link href="/offer-service" className=" border border-black text-black px-3 py-2 rounded-md text-sm font-medium bg-transaparent hover:bg-black hover:text-white">
-                Offer a Service
-            </Link>
-          </div>
+import Link from "next/link";
+export default function Banner() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 md:px-12">
+      <div className="text-center">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 md:mb-6">
+          Connecting You to Professional Services
+        </h1>
+        <p className="text-base md:text-xl lg:text-2xl text-gray-600 mb-6 md:mb-8 mx-auto max-w-md md:max-w-xl">
+          Discover experts ready to deliver on-demand. Simplify your service needs with our platform.
+        </p>
+        <div className="flex flex-col md:flex-row justify-center gap-4 w-full md:w-auto">
+          <Link href="/postoportunity" className="text-center border border-black text-black px-6 py-3 rounded-md text-md font-medium bg-transparent hover:bg-black hover:text-white w-full md:w-auto">
+            Request a service
+          </Link>
+          <Link href="/postservice" className="text-center border border-black text-black px-6 py-3 rounded-md text-md font-medium bg-transparent hover:bg-black hover:text-white w-full md:w-auto">
+            Post your service
+          </Link>
         </div>
       </div>
-    )
+    </div>
+  );
 }

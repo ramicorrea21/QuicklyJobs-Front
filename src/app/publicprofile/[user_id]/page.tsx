@@ -53,7 +53,7 @@ export default  function PublicProfile({params : user_id} : {params : {user_id :
     }
 
     return( 
-        <div className="flex justify-center lg:mt-40 lg:mx-0 mx-6">
+        <div className="flex justify-center mt-20 lg:mt-40 lg:mx-0 mx-6">
       <div className="w-full max-w-6xl">
         
         
