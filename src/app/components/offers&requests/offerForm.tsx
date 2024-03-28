@@ -63,7 +63,7 @@ export default function OfferForm() {
               });
             router.push('/oportunities')
         }
-    }, [posted])
+    }, [posted, router])
 
     const onSubmit: SubmitHandler<postInputs> = async (data) => {
        const formData = new FormData();

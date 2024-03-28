@@ -60,7 +60,7 @@ export default function CompleteProfile() {
                 URL.revokeObjectURL(imagePreviewUrl);
             };
         }
-    }, [profile, images]);
+    }, [profile, images, router]);
 
 
     const onSubmit: SubmitHandler<ProfileInputs> = async (data) => {

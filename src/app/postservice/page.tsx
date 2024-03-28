@@ -24,7 +24,7 @@ export default function PostService(){
             router.push('/complete_profile');
           }
         }
-      }, [user.loading, user.user?.profile]); 
+      }, [user.loading, user.user?.profile, router]); 
 
 
     return(

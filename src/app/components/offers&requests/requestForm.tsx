@@ -63,7 +63,7 @@ export default function RequestForm() {
               });
             router.push('/services')
         }
-    }, [posted])
+    }, [posted, router])
 
     const onSubmit: SubmitHandler<postInputs> = async (data) => {
        const formData = new FormData();

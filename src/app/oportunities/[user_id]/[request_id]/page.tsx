@@ -59,7 +59,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
         fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${user_id}`)
             .then(res => res.json())
             .then(data => setUserInfo(data))
-    }, [])
+    }, [request_id, user_id])
 
 
     const handleClick = async () => {

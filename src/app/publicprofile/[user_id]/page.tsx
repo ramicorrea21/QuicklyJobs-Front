@@ -46,7 +46,7 @@ export default  function PublicProfile({params : user_id} : {params : {user_id :
     })
     .catch(error => console.error("Failed to fetch data", error))
     .finally(() => setIsLoading(false));
-  }, []);
+  }, [user_id]);
 
     if(isLoading){
       return<ProfileSkeleton/>
