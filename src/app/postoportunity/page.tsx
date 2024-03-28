@@ -10,11 +10,11 @@ import OfferForm from "../components/offers&requests/offerForm"
 
 
 export default function PostOportunity(){
-    const token = localStorage.getItem('token');
     const router = useRouter()
     const user = useAuth()
     
     useEffect(() => {
+      const token = localStorage.getItem('token');
         if (!user.loading) {
           if (token === null) {
             router.push('/login');
@@ -27,7 +27,7 @@ export default function PostOportunity(){
             router.push('/complete_profile');
           }
         }
-      }, [user.loading, user.user?.profile, router, token]); 
+      }, [user.loading, user.user?.profile, router]); 
 
 
     return(
