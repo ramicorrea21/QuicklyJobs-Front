@@ -39,7 +39,7 @@ export default function ServiceCard({ off }: RequestCardProps) {
             )}
             <span className="text-md ml-1">{off.user_handle}</span>
           </div>
-          <span className="text-sm text-gray-500">{off.profession}</span>
+          <span className="text-sm text-gray-500 mt-3">{off.profession}</span>
         </div>
 
         <h3 className="text-md font-bold mt-2 overflow-hidden text-ellipsis whitespace-nowrap">{off.title}</h3>

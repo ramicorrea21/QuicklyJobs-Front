@@ -7,6 +7,7 @@ import { categories, countries } from '../utils/options';
 import Image from 'next/image';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
+import { BiUserCircle } from 'react-icons/bi';
 
 type EditProfile = {
     first_name?: string;
@@ -35,7 +36,7 @@ interface EditProfileModalProps {
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, user }) => {
     const [avatarUrl, setAvatarUrl] = useState(user?.profile?.avatar || 'default_avatar_url.png');
     const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
-    const {editProfile} = useAuth()
+    const { editProfile } = useAuth()
     const router = useRouter()
 
     const {
@@ -90,9 +91,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
         const status = await editProfile(formData)
 
-        if(status == 200){
-              onClose()
-        }else{
+        if (status == 200) {
+            onClose()
+        } else {
             alert('Error editing profile')
         }
 
@@ -107,14 +108,18 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <h2 className="text-xl font-semibold col-span-full">Edit Profile</h2>
                     <div className="col-span-full flex justify-center items-center flex-col">
-                        <div className="avatar-wrapper">
-                            <Image
-                                src={avatarUrl}
-                                alt="Avatar"
-                                width={100} 
-                                height={100} 
-                                className="rounded-full" 
-                            />
+                        <div className="w-24 h-24 relative rounded-full overflow-hidden border border-gray-300">
+                            {avatarUrl ? (
+                                <Image
+                                    src={avatarUrl}
+                                    alt="Avatar"
+                                    layout="fill" // Ocupa el espacio completo del contenedor
+                                    objectFit="cover" // Cubre todo el espacio disponible, recortándose si es necesario
+                                    className="rounded-full" // Redondea las esquinas de la imagen (en caso de que sobresalga del contenedor)
+                                />
+                            ) : (
+                                <BiUserCircle className="text-gray-500" size={96} /> // Asumiendo que deseas mostrar un ícono si no hay imagen
+                            )}
                         </div>
                         <input
                             type="file"

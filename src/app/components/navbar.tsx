@@ -40,10 +40,10 @@ export default function Navbar() {
           <Link href="/" className="font-bold max-[340px]:text-lg text-xl text-black mr-4">
             QuicklyJobs
           </Link>
-          <Link href="/services" className="text-black px-3 py-2 rounded-md text-sm font-medium hidden lg:block">
+          <Link href="/services" className="text-black px-3 mt-0.5 rounded-md text-sm font-medium hidden lg:block">
             Services Offers
           </Link>
-          <Link href="/oportunities" className="text-black px-3 py-2 rounded-md text-sm font-medium hidden lg:block">
+          <Link href="/oportunities" className="text-black px-3 mt-0.5 rounded-md text-sm font-medium hidden lg:block">
             Job Oportunities
           </Link>
         </div>
@@ -58,7 +58,7 @@ export default function Navbar() {
                 className="font-semibold text-xs flex items-center cursor-pointer"
                 onClick={toggleDropdown}
               >
-                Yo
+               Me
                 {dropdownOpen ? <MdKeyboardArrowUp size={24} /> : <MdKeyboardArrowDown size={24} />}
               </button> 
               {dropdownOpen && (
@@ -104,14 +104,14 @@ export default function Navbar() {
               Offer a service
             </Link>
             {user ? (
-        <div className="text-center py-2">
+        <div className="text-center  py-2">
           {user?.profile?.avatar ? (
-            <Image src={user.profile.avatar} alt="user img" width={50} height={50} className="inline-block rounded-full"/>
+            <Image src={user.profile.avatar} alt="user img" width={50} height={50} className="inline-block rounded-full mx-1"/>
           ) : (
             <FaUser size={25} className="inline-block rounded-full mb-2"/>
           )}
           <button onClick={toggleMobileDropdown} className="font-semibold text-lg">
-            Yo
+           Me
           </button>
           
           {mobileDropdownOpen && (

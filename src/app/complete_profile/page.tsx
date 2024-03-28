@@ -7,9 +7,7 @@ import { profileSchema } from '../validations/profileSchema';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import {  categories, countries } from '../utils/options'
-
-
+import { categories, countries } from '../utils/options'
 
 
 export type ProfileInputs = {
@@ -19,7 +17,7 @@ export type ProfileInputs = {
     profession: string,
     category: string,
     phone: string,
-    available: string, 
+    available: string,
     city: string,
     country: string,
     hiring: string,
@@ -27,7 +25,7 @@ export type ProfileInputs = {
     company: string,
     role: string,
     experience: string,
-    avatar: FileList | null, 
+    avatar: FileList | null,
 };
 
 export default function CompleteProfile() {
@@ -88,7 +86,7 @@ export default function CompleteProfile() {
     };
 
     return (
-        <div className="min-h-screen  flex justify-center items-center mt-0 md:mt-8">
+        <div className="min-h-screen  flex justify-center items-center my-20 px-2 md:mt-8">
             <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-4xl mx-auto md:mt-20">
                 <div className="flex flex-col items-center">
                     <h2 className="text-3xl font-semibold mb-2">Complete your Profile</h2>
@@ -96,38 +94,36 @@ export default function CompleteProfile() {
                         The information box with an asterisk (*) must be filled out and it will be displayed publicly on your profile.
                     </p>
                     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-                        <div className="w-20 h-20 bg-purple-300 rounded-full flex items-center justify-center mb-3 relative cursor-pointer">
-                            {previewImage ? 
-                             <>
-                             <input
-                                type="file"
-                                {...register('avatar')}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                style={{ borderRadius: '50%' }}/>
-                                <div className=" rounded-full">
-                                        <Image
-                                            src={previewImage}
-                                            alt="Preview Image"
-                                            width={400} // Establece el tamaño que desees
-                                            height={200}
-                                            className="rounded-full"
-                                        />
+                        <div className="w-20 h-20 bg-purple-300 rounded-full overflow-hidden border-4 border-white relative cursor-pointer flex justify-center items-center">
+                            {!previewImage && (
+                                <>
+                                    <input
+                                        type="file"
+                                        {...register('avatar')}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                    />
+                                    <FaUserCircle size={40} className="text-gray-700" />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <p className="text-white text-xs text-center">Profile Picture</p>
                                     </div>
-                             </> :
-                             <>
-                                <div>
+                                </>
+                            )}
+                            {previewImage && (
+                                <>
                                 <input
                                 type="file"
                                 {...register('avatar')}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                style={{ borderRadius: '50%' }}
-                            />
-                            <FaUserCircle size={40} className="text-gray-700" />
-                            <div className="absolute inset-0 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
-                                <p className="text-white text-xs">Profile Picture</p>
-                            </div>
-                                </div>
-                             </>}
+                              />
+                                <Image
+                                    src={previewImage}
+                                    alt="Preview Image"
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className='cursor-pointer'
+                                />
+                                </>
+                            )}
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -145,7 +141,7 @@ export default function CompleteProfile() {
                                     Last Name*
                                     <p className="block text-sm font-medium leaging-6 text-red-500">
                                         {errors.last_name?.message}
-                                    </p>    
+                                    </p>
                                 </label>
                                 <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="last_name" type="text" placeholder="Doe" {...register("last_name")} />
@@ -186,8 +182,8 @@ export default function CompleteProfile() {
                                 </label>
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="category" {...register("category")}>
-                                    {categories.map((categories) =>{
-                                        return(
+                                    {categories.map((categories) => {
+                                        return (
                                             <option key={categories}>{categories}</option>
                                         )
                                     })}
@@ -232,14 +228,14 @@ export default function CompleteProfile() {
                                     id="country"
                                     {...register("country")}
                                 >
-                                   {countries.map((country) =>{
-                                    return(
-                                        <option key={country}>{country}</option>
-                                    )
-                                   })}
+                                    {countries.map((country) => {
+                                        return (
+                                            <option key={country}>{country}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
-                            
+
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="city">
                                     City *
@@ -304,7 +300,7 @@ export default function CompleteProfile() {
                             </div>
                             <div className="w-full md:w-1/2 mt-6 px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="city">
-                                    Role 
+                                    Role
                                     <p className="block text-sm font-medium leaging-6 text-red-500">
                                         {errors.role?.message}
                                     </p>
@@ -319,7 +315,7 @@ export default function CompleteProfile() {
                             </div>
                             <div className="w-full md:w-1/2 mt-6 px-3 mb-6 md:mb-0">
                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="city">
-                                    Years of experience 
+                                    Years of experience
                                     <p className="block text-sm font-medium leaging-6 text-red-500">
                                         {errors.experience?.message}
                                     </p>
@@ -334,7 +330,7 @@ export default function CompleteProfile() {
                             </div>
 
                         </div>
-                        
+
                         <div className="flex flex-wrap -mx-3 mt-6">
                             <div className="w-full px-3">
                                 <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
