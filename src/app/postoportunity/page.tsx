@@ -27,7 +27,7 @@ export default function PostOportunity(){
             router.push('/complete_profile');
           }
         }
-      }, [user.loading, user.user?.profile, router]); 
+      }, [user.loading, user.user?.profile, router, token]); 
 
 
     return(
