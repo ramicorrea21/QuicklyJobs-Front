@@ -62,9 +62,8 @@ export default function Service({ params: { user_id, service_id } }: { params: {
 
 
     const handleClick = async () => {
-        // Asegurarse de que el usuario está cargado y autenticado antes de proceder
+
         if (!user) {
-            // Si el usuario no está logueado, muestra un mensaje y redirige al login
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -73,7 +72,7 @@ export default function Service({ params: { user_id, service_id } }: { params: {
             router.push('/login');
             return;
         } else if (!user.profile) {
-            // Si el perfil del usuario no está completo, muestra un mensaje y redirige a completar el perfil
+  
             Swal.fire({
                 icon: 'error',
                 title: 'Profile Incomplete',
@@ -83,8 +82,7 @@ export default function Service({ params: { user_id, service_id } }: { params: {
             return;
         }
     
-        // Si el usuario está autenticado y tiene el perfil completo, procede con el envío del email
-        setIsSendingEmail(true); // Inicia el indicador de carga
+        setIsSendingEmail(true);
     
         const email = {
             "title": service?.title,
@@ -123,7 +121,7 @@ export default function Service({ params: { user_id, service_id } }: { params: {
                 icon: "error"
             });
         } finally {
-            setIsSendingEmail(false); // Detiene el indicador de carga
+            setIsSendingEmail(false);
         }
     };
 

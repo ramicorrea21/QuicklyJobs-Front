@@ -16,14 +16,14 @@ export default function ServiceCard({ off }: RequestCardProps) {
           <Image
             src={off.pictures}
             alt="Preview Image"
-            width={400} // Establece el tamaño que desees
+            width={400} 
             height={200}
-            className="rounded object-cover w-full h-48" // Define una altura fija para todas las imágenes
+            className="rounded object-cover w-full h-48" 
           />
         </div>
       )}
 
-      <div className="flex-1"> {/* Asegura que este div ocupe todo el espacio disponible */}
+      <div className="flex-1"> 
         <div className="flex justify-between items-start border-t border-gray-200 pt-2">
           <div className="flex items-center mt-2">
             {off.avatar ? (

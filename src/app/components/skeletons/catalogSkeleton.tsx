@@ -1,5 +1,4 @@
 export default function CatalogSkeleton() {
-    // Determina cuántas tarjetas de esqueleto quieres mostrar
     const skeletonCards = Array(6).fill(0);
   
     return (

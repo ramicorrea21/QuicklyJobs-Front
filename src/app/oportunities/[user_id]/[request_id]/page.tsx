@@ -63,9 +63,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
 
 
     const handleClick = async () => {
-        // Asegurarse de que el usuario está cargado y autenticado antes de proceder
         if (!user) {
-            // Si el usuario no está logueado, muestra un mensaje y redirige al login
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -74,7 +72,6 @@ export default function Request({ params: { user_id, request_id } }: { params: {
             router.push('/login');
             return;
         } else if (!user.profile) {
-            // Si el perfil del usuario no está completo, muestra un mensaje y redirige a completar el perfil
             Swal.fire({
                 icon: 'error',
                 title: 'Profile Incomplete',
@@ -84,7 +81,6 @@ export default function Request({ params: { user_id, request_id } }: { params: {
             return;
         }
     
-        // Si el usuario está autenticado y tiene el perfil completo, procede con el envío del email
         setIsSendingEmail(true); // Inicia el indicador de carga
     
         const email = {
@@ -111,7 +107,6 @@ export default function Request({ params: { user_id, request_id } }: { params: {
                     icon: "success"
                 });
             } else {
-                // Manejar la respuesta fallida aquí
                 Swal.fire({
                     title: "Oops!",
                     text: "Something went wrong. Please try again later.",
@@ -125,7 +120,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
                 icon: "error"
             });
         } finally {
-            setIsSendingEmail(false); // Detiene el indicador de carga
+            setIsSendingEmail(false); 
         }
     };
 
@@ -138,7 +133,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
             <div className="flex flex-col items-center justify-center md:mt-0 mt-20 w-full min-h-screen px-4">
                 {/* Tarjeta Principal del Servicio */}
                 <div className="bg-white shadow-xl rounded-lg max-w-4xl w-full mx-auto p-4 mb-8">
-                    <div className="flex flex-wrap md:flex-nowrap md:items-start"> {/* Asegúrate de que los elementos estén alineados al inicio */}
+                    <div className="flex flex-wrap md:flex-nowrap md:items-start">
                         {/* Contenedor de Imágenes */}
                         <div className="w-full md:w-1/2">
                             <div className="relative h-80 w-full">
@@ -154,7 +149,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
                             </div>
                         </div>
                         {/* Detalles del Servicio con iconos */}
-                        <div className="w-full md:w-1/2 p-4 space-y-6 flex flex-col justify-between"> {/* Flexbox column con justify-between para espacio */}
+                        <div className="w-full md:w-1/2 p-4 space-y-6 flex flex-col justify-between"> 
                             <div>
                                 <h2 className="text-3xl font-bold my-1">{request?.title}</h2>
                                 <p className="text-gray-700 my-1">{request?.description}</p>
@@ -177,7 +172,6 @@ export default function Request({ params: { user_id, request_id } }: { params: {
                             </div>
                             <button onClick={handleClick} disabled={isSendingEmail} className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center">
                                 {isSendingEmail ? (
-                                    // Puedes insertar aquí tu spinner o mensaje de carga
                                     <div>Loading...</div>
                                 ) : (
                                     <>
@@ -196,7 +190,7 @@ export default function Request({ params: { user_id, request_id } }: { params: {
                             <h3 className="text-xl font-bold mr-4">About</h3>
                             {request?.avatar ? (
                                 <Image
-                                    src={request?.avatar} // Asegúrate de que esto sea una URL válida
+                                    src={request?.avatar} 
                                     alt="user img"
                                     width={30}
                                     height={30}

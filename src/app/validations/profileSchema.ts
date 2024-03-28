@@ -38,11 +38,11 @@ const baseProfileUpdateSchema = z.object({
   profession: z.string().min(1, "Profession is required").optional(),
   category: z.string().min(1, "Category is required").optional(),
   phone: z.string().min(10, "Phone number is too short").max(25, "Phone number is too long").optional(),
-  available: z.string().optional(), // Consider using z.enum() if you have specific values for this field
+  available: z.string().optional(), 
   city: z.string().min(3, "City is required").optional(),
   country: z.string().min(1, "Country is required").optional(),
-  hiring: z.string().optional(), // Consider using z.enum() here as well
-  looking_for: z.string().optional(), // Consider using z.enum() here too
+  hiring: z.string().optional(),
+  looking_for: z.string().optional(), 
   company: z.string().optional(),
   role: z.string().optional(),
   experience: z.string().optional(),

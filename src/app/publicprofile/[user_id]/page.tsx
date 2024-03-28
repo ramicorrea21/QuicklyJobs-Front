@@ -109,7 +109,6 @@ export default  function PublicProfile({params : user_id} : {params : {user_id :
         {/* Experience Section */}
         <div className="bg-white rounded-lg shadow-lg px-6 pt-4 pb-4 mt-4 mb-10">
           <h3 className="text-lg font-semibold">Experience</h3>
-          {/* Replace with actual experience items */}
           <p>{profile?.company} - Company</p>
           <p>{profile?.role} - Previous role</p>
         </div>

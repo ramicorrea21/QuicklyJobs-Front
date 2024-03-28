@@ -199,14 +199,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children } ) => {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
-          // 'Content-Type': 'multipart/form-data' // Esta línea usualmente no es necesaria, ya que el navegador la establece automáticamente con el boundary correcto.
         },
         body: data
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const profileData = await response.json(); // Asegúrate de que esta línea extrae correctamente el perfil del cuerpo de respuesta.
+      const profileData = await response.json(); 
     
       setUser((currentUser) => {
         if (!currentUser) return null;

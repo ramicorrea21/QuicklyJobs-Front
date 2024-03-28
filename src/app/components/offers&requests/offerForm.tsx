@@ -202,7 +202,7 @@ export default function OfferForm() {
                                                 src={user?.profile?.avatar}
                                                 alt="user img"
                                                 width={25}
-                                                height={25} // Adjusted for aspect ratio
+                                                height={25} 
                                                 className="rounded-full"
                                             />
                                         ) : (
