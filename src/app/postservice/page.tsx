@@ -10,21 +10,21 @@ export default function PostService() {
     const { user, loading } = useAuth()
 
     useEffect(() => {
-        const token = localStorage.getItem('token'); 
-        
-        if (!loading) {
-            if (token === null) {
-                router.push('/login');
-            } else if (user?.profile == null) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Profile incomplete!",
-                    text: "Please complete your profile before posting a service or request!!",
-                });
-                router.push('/complete_profile');
-            }
-        }
-    }, [loading, user?.profile, router]); 
+      const token = localStorage.getItem('token');
+      
+      if (!loading) {
+          if (!token) {
+              router.push('/login');
+          } else if (!user?.profile) {
+              Swal.fire({
+                  icon: "error",
+                  title: "Profile incomplete!",
+                  text: "Please complete your profile before posting a service or request!!",
+              });
+              router.push('/complete_profile');
+          }
+      }
+  }, [loading, user?.profile, router]);
 
     return (
         <div className="flex justify-center mt-32 md:mt-0 items-center h-screen">
