@@ -77,7 +77,7 @@ export default function Service({ params: { user_id, service_id } }: { params: {
             Swal.fire({
                 icon: 'error',
                 title: 'Profile Incomplete',
-                text: 'Please complete your profile before contacting for services!',
+                text: 'Please complete your profile before contacting for services',
             });
             router.push('/complete_profile');
             return;
