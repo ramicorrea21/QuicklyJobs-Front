@@ -30,7 +30,7 @@ export default function Login() {
     <div className="flex flex-col lg:flex-row min-h-screen mt-20 md:mt-0">
     <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-4 sm:px-10 text-center lg:items-start lg:text-left mt-28 lg:mt-0 lg:ml-28">
       <h1 className="text-4xl lg:text-7xl xl:text-8xl font-bold mb-10">Log In to your account</h1>
-      <p className="mb-2 text-xl lg:text-3xl">Don't have an account? <Link href="/singup" className="text-indigo-600 hover:underline">Singup</Link></p>
+      <p className="mb-2 text-xl lg:text-3xl">{"Don't have an account?"}<Link href="/singup" className="text-indigo-600 hover:underline">Singup</Link></p>
       <div className="w-12 h-1 bg-black mb-4 hidden md:block"></div>
       <p className="text-sm sm:text-xl lg:text-2xl text-gray-700"> To make the most out of QuicklyJobs, please log in to offer or request services.</p>
     </div>
