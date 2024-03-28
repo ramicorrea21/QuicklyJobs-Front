@@ -81,7 +81,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - Ramiro Correa [ramicorrea021@gmail.com]
+Contact - Ramiro Correa [ramicorrea021@gmail.com]
 
 Project Link: [https://github.com/ramicorrea21/QuicklyJobs-Front](https://github.com/ramicorrea21/QuicklyJobs-Front)
 Backend Repo: [https://github.com/ramicorrea21/QuicklyJobs-Back](https://github.com/ramicorrea21/QuicklyJobs-Back)
