@@ -106,11 +106,11 @@ export default function Navbar() {
             {user ? (
         <div className="text-center  py-2">
           {user?.profile?.avatar ? (
-            <Image src={user.profile.avatar} alt="user img" width={50} height={50} className="inline-block rounded-full mx-1"/>
+            <Image src={user.profile.avatar} alt="user img" width={50} height={50} className="avatar-nav inline-block rounded-full mx-1"/>
           ) : (
             <FaUser size={25} className="inline-block rounded-full mb-2"/>
           )}
-          <button onClick={toggleMobileDropdown} className="font-semibold text-lg">
+          <button onClick={toggleMobileDropdown} className="font-semibold text-lg mt-1">
            Me
           </button>
           

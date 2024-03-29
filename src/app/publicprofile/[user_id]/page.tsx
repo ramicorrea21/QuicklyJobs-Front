@@ -66,18 +66,20 @@ export default  function PublicProfile({params : user_id} : {params : {user_id :
         {/* White block for user info */}
         <div className="bg-white rounded-b-lg shadow-lg px-6 pt-16 pb-8 -mt-12 relative z-10">
           {/* User's avatar */}
-          <div className="absolute -top-24 left-5 w-36 h-36 rounded-full overflow-hidden border-4 border-white">
-            {profile?.avatar ? 
-            <Image
-            src={profile?.avatar}
-            alt="Profile picture"
-            width={144}
-            height={144}
-            className="object-cover"
-          />:  <BiUser size={100} className="rounded-full mb-2" />
-            }
-            
-          </div>
+            <div className="absolute -top-24 left-5 w-36 h-36 rounded-full overflow-hidden border-4 border-white">
+              {profile?.avatar ?
+                <div className="relative w-full h-full">
+                  <Image
+                    src={profile?.avatar}
+                    alt="Profile picture"
+                    layout="fill" 
+                    objectFit="cover" 
+                    className="rounded-full"
+                  />
+                </div> :
+                <BiUser size={100} className="rounded-full mb-2" />
+              }
+            </div>
 
           {/* User's information */}
           <div>
