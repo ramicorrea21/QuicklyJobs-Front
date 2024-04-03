@@ -33,7 +33,7 @@ export default function RequestCard({ op }: RequestCardProps) {
                 alt="user img"
                 width={25}
                 height={25}
-                className="rounded-full"
+                className="rounded-full avatar-nav"
               />
             ) : (
               <FaUser size={25} className="rounded-full" />

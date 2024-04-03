@@ -93,9 +93,9 @@ export default function OfferForm() {
 
 
     return (
-        <div className="container mx-auto my-10  mt-44 md:mt-10 p-5">
+        <div className="container mx-auto my-10  mt-56 md:mt-10 p-5">
             <div className="flex justify-center">
-                <div className="flex flex-col lg:flex-row gap-10">
+                <div className="flex flex-col md:flex-row gap-10">
 
                     {/* Card del formulario */}
                     <div className="flex flex-col w-full lg:w-4/6 bg-white rounded-lg shadow-lg p-6">
@@ -203,7 +203,7 @@ export default function OfferForm() {
                                                 alt="user img"
                                                 width={25}
                                                 height={25} 
-                                                className="rounded-full"
+                                                className="rounded-full avatar-nav"
                                             />
                                         ) : (
                                             <FaUser size={25} className="rounded-full mb-2" />
